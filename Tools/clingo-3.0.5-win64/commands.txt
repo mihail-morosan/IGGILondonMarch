@@ -1,0 +1,1 @@
+clingo --rand-freq=1 --seed=%RANDOM% level.txt > final.txt

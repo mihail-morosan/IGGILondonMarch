@@ -4,9 +4,7 @@ dim(1..width).
 
 tile((X,Y)) :- dim(X), dim(Y).
 
-0 { sprite(T,grass;rock;gem) } 1 :- tile(T).
-
-:- not 1 { sprite(T,gem) } 1.
+0 { sprite(T,grass;rock) } 1 :- tile(T).
 
 :- not (width*width)/2 { sprite(T,grass) }.
 :- not (width*width)/4 { sprite(T,rock) }.
@@ -26,8 +24,11 @@ sprite(width/2+1, width/2+1, gem).
 start1((2, 2)).
 start2((width-1, width-1)).
 
+sprite(T,grass) :- start1(T).
+sprite(T,grass) :- start2(T).
+
 touch(T) :- start1(T).
-{ touch(T2):adj(T1,T2) } :- touch(T1). 
+{ touch(T2):adj(T1,T2) } :- touch(T1),passable(T2). 
 
 :- sprite(T,rock), touch(T). 
 
