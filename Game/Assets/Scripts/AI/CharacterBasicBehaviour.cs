@@ -36,6 +36,15 @@ public abstract class CharacterBasicBehaviour : MonoBehaviour, IGoap {
 
         //And some other stuff
         bool isTreasureProtected = !gridLayer.TreasureStolen;
+        for (int i = 0; i < 4;i++ )
+        {
+            GridTile treasureN = gridLayer.GetTile(GridLayer.GetNeighbour(gridLayer.TreasureLocation, i));
+            if(treasureN != null)
+            {
+                if (treasureN.Passable)
+                    isTreasureProtected = false;
+            }
+        }
         worldData.Add(new KeyValuePair<string, object>("isTreasureProtected", isTreasureProtected));
 
         //Has rocks

@@ -38,11 +38,15 @@ public class GridLayer : MonoBehaviour {
         return Grid;
     }
 
+    public GridTile GetTile(int x, int y)
+    {
+        if (x >= 0 && y >= 0 && x < Grid.GetUpperBound(0) && y < Grid.GetUpperBound(1))
+            return Grid[x, y];
+        return null;
+    }
     public GridTile GetTile(Vector2 loc)
     {
-        if(loc.x >= 0 && loc.y >= 0 && loc.x < Grid.GetUpperBound(0) && loc.y < Grid.GetUpperBound(1))
-            return Grid[(int)loc.x, (int)loc.y];
-        return null;
+        return GetTile((int)loc.x, (int)loc.y);
     }
 
     public void CreateGridTile(int x, int y, GameObject VTile, string TType, bool Passable)
@@ -53,6 +57,26 @@ public class GridLayer : MonoBehaviour {
         Grid[x, y].VisualTile = VTile;
         Grid[x, y].Location = new Vector2(x, y);
         //Debug.Log(x + " " + y);
+    }
+
+    public void MakeRockGrid(GridTile tile)
+    {
+        tile.Passable = false;
+        GameObject go = GetComponent<CreateGridFromClingo>().CreateVisualTile((int)tile.Location.x, (int)tile.Location.y, "rock");
+        //GameObject go = (GameObject)Instantiate(GetComponent<CreateGridFromClingo>().GridTileRock, tile.VisualTile.transform.position, tile.VisualTile.transform.rotation);
+        Destroy(tile.VisualTile);
+        tile.VisualTile = go;
+        tile.TileType = "rock";
+    }
+
+    public void MakeGrassGrid(GridTile tile)
+    {
+        tile.Passable = true;
+        GameObject go = GetComponent<CreateGridFromClingo>().CreateVisualTile((int)tile.Location.x, (int)tile.Location.y, "grass");
+        //GameObject go = (GameObject)Instantiate(GetComponent<CreateGridFromClingo>().GridTileRock, tile.VisualTile.transform.position, tile.VisualTile.transform.rotation);
+        Destroy(tile.VisualTile);
+        tile.VisualTile = go;
+        tile.TileType = "grass";
     }
 
     static int[][] Neighbours = new int[][] { new int[] { 0, 1 }, new int[] { 1, 0 }, 

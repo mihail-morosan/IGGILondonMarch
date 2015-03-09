@@ -2,27 +2,27 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class RunFromWerewolf : GoapAction {
+public class BuildBlockade : GoapAction {
     CharacterBasicBehaviour mainChar;
 
-    WerewolfBehaviour wereChar;
     GridTile nextTile = null;
+    GridTile finalTile = null;
 
     bool hasMoved = false;
     private float startTime = 0;
     public float workDuration = 1;
 
-    public RunFromWerewolf()
+    public BuildBlockade()
     {
-		//addPrecondition ("isWerewolfNearby", false);
+		//addPrecondition ("hasRocks", true);
 
-        addEffect("isWerewolfNearby", false);
+		addEffect ("isTreasureProtected", true);
 
 	}
 	
     void Start()
     {
-        wereChar = FindObjectOfType<WerewolfBehaviour>();
+
         mainChar = GetComponent<CharacterBasicBehaviour>();
     }
 	
@@ -31,6 +31,7 @@ public class RunFromWerewolf : GoapAction {
         nextTile = null;
         hasMoved = false;
         startTime = 0;
+        finalTile = null;
 	}
 	
 	public override bool isDone ()
@@ -45,24 +46,32 @@ public class RunFromWerewolf : GoapAction {
 	
 	public override bool checkProceduralPrecondition (GameObject agent)
 	{
-		//TODO
         mainChar.isMoving = true;
-        if (nextTile == null)
+
+        nextTile = null;
+
+        for (int i = 0; i < 4; i++)
         {
-            
-                float CurrentDistance = (wereChar.Location - mainChar.Location).magnitude;
-
-                System.Random rand = new System.Random();
-
-                List<GridTile> path = mainChar.gridLayer.GetBestPathToTile(mainChar.gridLayer.GetTile(mainChar.Location), mainChar.gridLayer.GetTile(GridLayer.GetNeighbour(mainChar.Location, rand.Next(4))));
-                if (path.Count > 0)
+            GridTile treasureN = mainChar.gridLayer.GetTile(GridLayer.GetNeighbour(mainChar.gridLayer.TreasureLocation, i));
+            if (treasureN != null)
+            {
+                if (treasureN.Passable)
                 {
-                    nextTile = path[path.Count - 1];
-                    float NewDistance = (wereChar.Location - nextTile.Location).magnitude;
-
-                    if (NewDistance <= CurrentDistance)
-                        nextTile = null;
+                    finalTile = treasureN;
+                    //nextTile = treasureN;
                 }
+            }
+        }
+
+        List<GridTile> path = mainChar.gridLayer.GetBestPathToTile(mainChar.gridLayer.GetTile(mainChar.Location), finalTile);
+        if (path.Count > 0)
+        {
+            //foreach(var x in path)
+            //{
+            //    Debug.Log(x.Location);
+            //}
+            //Debug.Log(path);
+            nextTile = path[path.Count - 1];
         }
 
         if(nextTile!=null)
@@ -83,9 +92,12 @@ public class RunFromWerewolf : GoapAction {
             mainChar.MoveToLocation(nextTile.Location);
             hasMoved = true;
             mainChar.isMoving = false;
-            nextTile = null;
 
-            return false;
+            //Build blockade here
+            if (nextTile.Equals(finalTile))
+                mainChar.gridLayer.MakeRockGrid(nextTile);
+            else
+                return false;
         }
 		return true;
 	}

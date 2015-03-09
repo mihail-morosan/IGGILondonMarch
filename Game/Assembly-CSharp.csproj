@@ -48,6 +48,8 @@
   <ItemGroup>
      <Compile Include="Assets\CreateGridFromClingo.cs" />
      <Compile Include="Assets\GridLayer.cs" />
+     <Compile Include="Assets\Scripts\AI\Actions\BuildBlockade.cs" />
+     <Compile Include="Assets\Scripts\AI\Actions\GetRocks.cs" />
      <Compile Include="Assets\Scripts\AI\Actions\MoveToTreasure.cs" />
      <Compile Include="Assets\Scripts\AI\Actions\RoamAround.cs" />
      <Compile Include="Assets\Scripts\AI\Actions\RunFromWerewolf.cs" />
