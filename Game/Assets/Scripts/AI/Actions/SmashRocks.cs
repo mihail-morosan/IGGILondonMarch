@@ -15,6 +15,7 @@ public class SmashRocks : GoapAction {
     public SmashRocks()
     {
         addPrecondition("isTreasureProtected", true);
+        addPrecondition("isWerewolfNearby", false);
         //addPrecondition("hasTreasure", false);
 
         //addEffect("hasTreasure", true);
