@@ -48,7 +48,20 @@
   <ItemGroup>
      <Compile Include="Assets\CreateGridFromClingo.cs" />
      <Compile Include="Assets\GridLayer.cs" />
+     <Compile Include="Assets\Scripts\AI\Actions\MoveToTreasure.cs" />
+     <Compile Include="Assets\Scripts\AI\Actions\RoamAround.cs" />
+     <Compile Include="Assets\Scripts\AI\Actions\RunFromWerewolf.cs" />
+     <Compile Include="Assets\Scripts\AI\CharacterBasicBehaviour.cs" />
+     <Compile Include="Assets\Scripts\AI\DruidBehaviour.cs" />
+     <Compile Include="Assets\Scripts\AI\MainCharacter.cs" />
+     <Compile Include="Assets\Scripts\AI\WerewolfBehaviour.cs" />
+     <Compile Include="Assets\Scripts\Libraries\HSPriorityQueue\HeapPriorityQueue.cs" />
+     <Compile Include="Assets\Scripts\Libraries\HSPriorityQueue\IPriorityQueue.cs" />
+     <Compile Include="Assets\Scripts\Libraries\HSPriorityQueue\PriorityQueueNode.cs" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
+ <Reference Include="Assembly-UnityScript-firstpass">
+ <HintPath>D:/GitHub/IGGILondonMarch/Game/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

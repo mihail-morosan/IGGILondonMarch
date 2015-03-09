@@ -1,0 +1,20 @@
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+
+public class WerewolfBehaviour : CharacterBasicBehaviour
+{
+    void Start()
+    {
+        this.isBad = false;
+    }
+
+    public override HashSet<KeyValuePair<string, object>> createGoalState()
+    {
+        HashSet<KeyValuePair<string, object>> goal = new HashSet<KeyValuePair<string, object>>();
+
+        goal.Add(new KeyValuePair<string, object>("isHumanNearby", true));
+
+        return goal;
+    }
+}
