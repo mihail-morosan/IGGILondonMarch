@@ -14,7 +14,7 @@ public class RunFromWerewolf : GoapAction {
 
     public RunFromWerewolf()
     {
-		//addPrecondition ("isWerewolfNearby", false);
+		addPrecondition ("isWerewolfNearby", true);
 
         addEffect("isWerewolfNearby", false);
 
@@ -46,10 +46,12 @@ public class RunFromWerewolf : GoapAction {
 	public override bool checkProceduralPrecondition (GameObject agent)
 	{
 		//TODO
+
+        if (wereChar == null)
+            return true;
+
         mainChar.isMoving = true;
-        if (nextTile == null)
-        {
-            
+ 
                 float CurrentDistance = (wereChar.Location - mainChar.Location).magnitude;
 
                 System.Random rand = new System.Random();
@@ -63,7 +65,6 @@ public class RunFromWerewolf : GoapAction {
                     if (NewDistance <= CurrentDistance)
                         nextTile = null;
                 }
-        }
 
         if(nextTile!=null)
             target = nextTile.VisualTile.gameObject;

@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class BuildBlockade : GoapAction {
+public class SmashRocks : GoapAction {
     CharacterBasicBehaviour mainChar;
 
     GridTile nextTile = null;
@@ -12,13 +12,11 @@ public class BuildBlockade : GoapAction {
     private float startTime = 0;
     public float workDuration = 1;
 
-    public BuildBlockade()
+    public SmashRocks()
     {
-        //addPrecondition("hasRocks", true);
-        addPrecondition("hasTreasure", false);
-        addPrecondition("isTreasureProtected", false);
+        //addPrecondition("isTreasureProtected", true);
 
-		addEffect ("isTreasureProtected", true);
+        addEffect("isTreasureProtected", false);
 
 	}
 	
@@ -48,16 +46,17 @@ public class BuildBlockade : GoapAction {
 	
 	public override bool checkProceduralPrecondition (GameObject agent)
 	{
-        mainChar.isMoving = true;
+        //mainChar.isMoving = true;
 
         nextTile = null;
 
-        for (int i = 0; i < 4; i++)
+        System.Random rand = new System.Random();
+        //for (int i = 0; i < 4; i++)
         {
-            GridTile treasureN = mainChar.gridLayer.GetTile(GridLayer.GetNeighbour(mainChar.gridLayer.TreasureLocation, i));
+            GridTile treasureN = mainChar.gridLayer.GetTile(GridLayer.GetNeighbour(mainChar.gridLayer.TreasureLocation, rand.Next(4)));
             if (treasureN != null)
             {
-                if (treasureN.Passable)
+                //if (!treasureN.Passable)
                 {
                     finalTile = treasureN;
                     //nextTile = treasureN;
@@ -65,16 +64,18 @@ public class BuildBlockade : GoapAction {
             }
         }
 
-        List<GridTile> path = mainChar.gridLayer.GetBestPathToTile(mainChar.gridLayer.GetTile(mainChar.Location), finalTile);
-        if (path.Count > 0)
+        List<GridTile> path = mainChar.gridLayer.GetBestPathToTile(finalTile, mainChar.gridLayer.GetTile(mainChar.Location));
+        if (path.Count > 1)
         {
             //foreach(var x in path)
             //{
             //    Debug.Log(x.Location);
             //}
             //Debug.Log(path);
-            nextTile = path[path.Count - 1];
+            nextTile = path[1];
         }
+
+        //Debug.Log(nextTile.Location);
 
         if(nextTile!=null)
             target = nextTile.VisualTile.gameObject;
@@ -93,14 +94,10 @@ public class BuildBlockade : GoapAction {
         {
             mainChar.MoveToLocation(nextTile.Location);
             hasMoved = true;
-            mainChar.isMoving = false;
 
             //Build blockade here
             if (nextTile.Equals(finalTile))
-            {
-                mainChar.gridLayer.MakeRockGrid(nextTile);
-                mainChar.hasRocks = false;
-            }
+                mainChar.gridLayer.MakeGrassGrid(nextTile);
             else
                 return false;
         }

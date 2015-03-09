@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public abstract class CharacterBasicBehaviour : MonoBehaviour, IGoap {
 
@@ -31,11 +32,11 @@ public abstract class CharacterBasicBehaviour : MonoBehaviour, IGoap {
         DruidBehaviour druidChar = FindObjectOfType<DruidBehaviour>();
         WerewolfBehaviour wereChar = FindObjectOfType<WerewolfBehaviour>();
 
-        worldData.Add(new KeyValuePair<string, object>("hasTreasure", hasTreasure));
+        worldData.Add(new KeyValuePair<string, object>("hasTreasure", mainChar.hasTreasure));
         worldData.Add(new KeyValuePair<string, object>("canEscape", hasTreasure && Location == gridLayer.EscapeLocation));
 
         //And some other stuff
-        bool isTreasureProtected = !gridLayer.TreasureStolen;
+        bool isTreasureProtected = true;
         for (int i = 0; i < 4;i++ )
         {
             GridTile treasureN = gridLayer.GetTile(GridLayer.GetNeighbour(gridLayer.TreasureLocation, i));
@@ -45,16 +46,19 @@ public abstract class CharacterBasicBehaviour : MonoBehaviour, IGoap {
                     isTreasureProtected = false;
             }
         }
+
+        FindObjectOfType<Text>().text = "Treasure is protected: " + isTreasureProtected;
+        
         worldData.Add(new KeyValuePair<string, object>("isTreasureProtected", isTreasureProtected));
 
         //Has rocks
         worldData.Add(new KeyValuePair<string, object>("hasRocks", hasRocks));
 
-        worldData.Add(new KeyValuePair<string, object>("canBuildRockBlockade", hasRocks && !isTreasureProtected));
+        //worldData.Add(new KeyValuePair<string, object>("canBuildRockBlockade", hasRocks && !isTreasureProtected));
 
         worldData.Add(new KeyValuePair<string, object>("isHumanNearby", isBad && (mainChar.Location - Location).magnitude < 3));
 
-        worldData.Add(new KeyValuePair<string, object>("isWerewolfNearby", !isBad && (wereChar.Location - Location).magnitude < 3));
+        worldData.Add(new KeyValuePair<string, object>("isWerewolfNearby", !isBad && wereChar != null && (wereChar.Location - Location).magnitude < 3));
 
         
 

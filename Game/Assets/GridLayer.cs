@@ -31,7 +31,7 @@ public class GridLayer : MonoBehaviour {
 
     public Vector2 TreasureLocation;
 
-    public bool TreasureStolen = false;
+    //public bool TreasureStolen = false;
 
     public GridTile[,] GetGrid()
     {

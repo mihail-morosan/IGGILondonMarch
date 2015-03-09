@@ -142,7 +142,7 @@ public class CreateGridFromClingo : MonoBehaviour {
         go.transform.localScale = scale;
 
 
-        go.name = "gridTile" + y + "x" + x;
+        go.name = "gridTile" + x + "x" + y;
 
         go.transform.parent = transform;
 
