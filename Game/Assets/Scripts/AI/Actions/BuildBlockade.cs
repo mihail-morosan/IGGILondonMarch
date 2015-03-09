@@ -15,6 +15,7 @@ public class BuildBlockade : GoapAction {
     public BuildBlockade()
     {
         //addPrecondition("hasRocks", true);
+
         addPrecondition("hasTreasure", false);
         addPrecondition("isTreasureProtected", false);
 
@@ -65,6 +66,14 @@ public class BuildBlockade : GoapAction {
             }
         }
 
+        if(finalTile == null || mainChar.Location.Equals(finalTile.Location))
+        {
+            nextTile = finalTile;
+            if(finalTile != null)
+                target = nextTile.VisualTile.gameObject;
+            return finalTile != null;
+        }
+
         List<GridTile> path = mainChar.gridLayer.GetBestPathToTile(mainChar.gridLayer.GetTile(mainChar.Location), finalTile);
         if (path.Count > 0)
         {
@@ -88,21 +97,27 @@ public class BuildBlockade : GoapAction {
 			startTime = Time.time;
 
         //mainChar.isMoving = true;
+        mainChar.MoveToLocation(nextTile.Location);
+        
+        mainChar.isMoving = false;
+
+        //Build blockade here
+        if (nextTile.Equals(finalTile))
+        {
+            //mainChar.gridLayer.MakeRockGrid(nextTile);
+            //mainChar.hasRocks = false;
+        }
+        else
+            hasMoved = true;
 
         if (Time.time - startTime > workDuration)
         {
-            mainChar.MoveToLocation(nextTile.Location);
-            hasMoved = true;
-            mainChar.isMoving = false;
-
-            //Build blockade here
             if (nextTile.Equals(finalTile))
             {
                 mainChar.gridLayer.MakeRockGrid(nextTile);
                 mainChar.hasRocks = false;
             }
-            else
-                return false;
+            hasMoved = true;
         }
 		return true;
 	}

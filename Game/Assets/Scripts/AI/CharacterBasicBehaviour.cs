@@ -56,9 +56,9 @@ public abstract class CharacterBasicBehaviour : MonoBehaviour, IGoap {
 
         //worldData.Add(new KeyValuePair<string, object>("canBuildRockBlockade", hasRocks && !isTreasureProtected));
 
-        worldData.Add(new KeyValuePair<string, object>("isHumanNearby", isBad && (mainChar.Location - Location).magnitude < 3));
+        worldData.Add(new KeyValuePair<string, object>("isHumanNearby", isBad && (mainChar.Location - Location).magnitude < 2.5f));
 
-        worldData.Add(new KeyValuePair<string, object>("isWerewolfNearby", !isBad && wereChar != null && (wereChar.Location - Location).magnitude < 3));
+        worldData.Add(new KeyValuePair<string, object>("isWerewolfNearby", !isBad && wereChar != null && (wereChar.Location - Location).magnitude < 2.5f));
 
         
 

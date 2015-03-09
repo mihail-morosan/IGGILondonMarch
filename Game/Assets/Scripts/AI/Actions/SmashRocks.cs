@@ -14,10 +14,12 @@ public class SmashRocks : GoapAction {
 
     public SmashRocks()
     {
-        //addPrecondition("isTreasureProtected", true);
+        addPrecondition("isTreasureProtected", true);
+        //addPrecondition("hasTreasure", false);
 
+        //addEffect("hasTreasure", true);
         addEffect("isTreasureProtected", false);
-
+        //addEffect("canEscape", true);
 	}
 	
     void Start()
@@ -46,33 +48,37 @@ public class SmashRocks : GoapAction {
 	
 	public override bool checkProceduralPrecondition (GameObject agent)
 	{
-        //mainChar.isMoving = true;
+        mainChar.isMoving = true;
 
         nextTile = null;
 
-        System.Random rand = new System.Random();
-        //for (int i = 0; i < 4; i++)
+        float dist = 1000;
+
+        //System.Random rand = new System.Random();
+        for (int i = 0; i < 4; i++)
         {
-            GridTile treasureN = mainChar.gridLayer.GetTile(GridLayer.GetNeighbour(mainChar.gridLayer.TreasureLocation, rand.Next(4)));
+            GridTile treasureN = mainChar.gridLayer.GetTile(GridLayer.GetNeighbour(mainChar.gridLayer.TreasureLocation, i));
             if (treasureN != null)
             {
-                //if (!treasureN.Passable)
+                if (!treasureN.Passable && (treasureN.Location - mainChar.Location).magnitude < dist)
                 {
                     finalTile = treasureN;
+                    dist = (treasureN.Location - mainChar.Location).magnitude;
                     //nextTile = treasureN;
                 }
             }
         }
 
+        Debug.Log("Dist is " + dist);
+
         List<GridTile> path = mainChar.gridLayer.GetBestPathToTile(finalTile, mainChar.gridLayer.GetTile(mainChar.Location));
         if (path.Count > 1)
         {
-            //foreach(var x in path)
-            //{
-            //    Debug.Log(x.Location);
-            //}
-            //Debug.Log(path);
             nextTile = path[1];
+        }
+        else
+        {
+            nextTile = mainChar.gridLayer.GetTile(mainChar.Location);
         }
 
         //Debug.Log(nextTile.Location);
@@ -90,16 +96,28 @@ public class SmashRocks : GoapAction {
 
         //mainChar.isMoving = true;
 
+        mainChar.MoveToLocation(nextTile.Location);
+
+        //Debug.Log((nextTile.Location - finalTile.Location).magnitude);
+
+        //Build blockade here
+        if ((nextTile.Location - finalTile.Location).magnitude <= 1)
+        {
+        }
+        else
+        {
+            hasMoved = true;
+            return false;
+        }
+
         if (Time.time - startTime > workDuration)
         {
-            mainChar.MoveToLocation(nextTile.Location);
-            hasMoved = true;
-
-            //Build blockade here
-            if (nextTile.Equals(finalTile))
-                mainChar.gridLayer.MakeGrassGrid(nextTile);
-            else
-                return false;
+            if ((nextTile.Location - finalTile.Location).magnitude <= 1)
+            {
+                //Debug.Log("Got there");
+                mainChar.gridLayer.MakeGrassGrid(finalTile);
+                hasMoved = true;
+            }
         }
 		return true;
 	}

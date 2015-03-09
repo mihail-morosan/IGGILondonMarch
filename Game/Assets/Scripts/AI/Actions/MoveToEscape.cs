@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+
+using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
-public class MoveToTreasure : GoapAction {
+public class MoveToEscape : GoapAction
+{
     MainCharacter mainChar;
 
     GridTile nextTile = null;
@@ -11,48 +15,46 @@ public class MoveToTreasure : GoapAction {
     private float startTime = 0;
     public float workDuration = 1;
 
-    public MoveToTreasure()
+    public MoveToEscape()
     {
-        addPrecondition("isTreasureProtected", false);
+        addPrecondition("hasTreasure", true);
 
-		addPrecondition ("isWerewolfNearby", false);
+        addPrecondition("isWerewolfNearby", false);
 
-		addEffect ("hasTreasure", true);
+        addEffect("canEscape", true);
+    }
 
-        //addEffect("canEscape", true);
-	}
-	
     void Start()
     {
 
         mainChar = GetComponent<MainCharacter>();
     }
-	
-	public override void reset ()
-	{
+
+    public override void reset()
+    {
         nextTile = null;
         hasMoved = false;
         startTime = 0;
-	}
-	
-	public override bool isDone ()
-	{
-        return mainChar.hasTreasure || hasMoved;
-	}
-	
-	public override bool requiresInRange ()
-	{
-		return true;
-	}
-	
-	public override bool checkProceduralPrecondition (GameObject agent)
-	{
-		//TODO
+    }
+
+    public override bool isDone()
+    {
+        return mainChar.Location.Equals(mainChar.gridLayer.EscapeLocation);
+    }
+
+    public override bool requiresInRange()
+    {
+        return true;
+    }
+
+    public override bool checkProceduralPrecondition(GameObject agent)
+    {
+        //TODO
         mainChar.isMoving = true;
 
         nextTile = null; //nextTile = mainChar.gridLayer.GetGrid()[(int)mainChar.Location.x + 1, (int)mainChar.Location.y];
 
-        List<GridTile> path = mainChar.gridLayer.GetBestPathToTile(mainChar.gridLayer.GetTile(mainChar.Location), mainChar.gridLayer.GetTile(mainChar.gridLayer.TreasureLocation));
+        List<GridTile> path = mainChar.gridLayer.GetBestPathToTile(mainChar.gridLayer.GetTile(mainChar.Location), mainChar.gridLayer.GetTile(mainChar.gridLayer.EscapeLocation));
         if (path.Count > 0)
         {
             //foreach(var x in path)
@@ -67,37 +69,30 @@ public class MoveToTreasure : GoapAction {
             nextTile = mainChar.gridLayer.GetTile(mainChar.Location);
         }
 
-        if(nextTile!=null)
+        if (nextTile != null)
             target = nextTile.VisualTile.gameObject;
 
-		return nextTile != null;
-	}
-	
-	public override bool perform (GameObject agent)
-	{
+        return nextTile != null;
+    }
+
+    public override bool perform(GameObject agent)
+    {
         if (startTime == 0)
-			startTime = Time.time;
+            startTime = Time.time;
 
         //mainChar.isMoving = true;
 
         mainChar.MoveToLocation(nextTile.Location);
 
-        if (mainChar.Location.Equals(mainChar.gridLayer.TreasureLocation))
+        if (mainChar.Location.Equals(mainChar.gridLayer.EscapeLocation))
         {
-            mainChar.hasTreasure = true;
         }
         else
         {
             hasMoved = true;
-        }
-
-        if (Time.time - startTime > workDuration)
-        {
-            hasMoved = true;
-            //mainChar.isMoving = false;
-            
             return false;
         }
-		return true;
-	}
+
+        return true;
+    }
 }
