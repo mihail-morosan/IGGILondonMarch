@@ -1,6 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System;
+
+[Serializable]
+public struct NamedPrefab
+{
+    public string name;
+    public GameObject prefab;
+}
 
 public class CreateGridFromClingo : MonoBehaviour {
     float ResolutionX, ResolutionY;
@@ -18,6 +27,8 @@ public class CreateGridFromClingo : MonoBehaviour {
     public GameObject GridTileGrass;
     public GameObject GridTileRock;
     public GameObject GridTileGem;
+
+    public List<NamedPrefab> Prefabs; 
 
     float TileSizeH;
     float TileSizeW;
@@ -91,6 +102,11 @@ public class CreateGridFromClingo : MonoBehaviour {
 
                 go = CreateVisualTile(x, y, TType);
 
+                if (TType.Equals("gem"))
+                {
+                    gridLayer.TreasureLocation = new Vector2(x, y);
+                }
+
                 gridLayer.CreateGridTile(x, y, go, TType, !TType.Equals("rock"));
             }
         }
@@ -113,21 +129,20 @@ public class CreateGridFromClingo : MonoBehaviour {
 
         scale.z = 1;
 
-        if (TType.Equals("grass"))
+        GameObject prefab = null;
+        foreach(var p in Prefabs)
         {
-            go = (GameObject)Instantiate(GridTileGrass, pos, transform.rotation);
+            if(p.name.Equals(TType))
+            {
+                prefab = p.prefab;
+                break;
+            }
         }
 
-        if (TType.Equals("rock"))
-        {
-            go = (GameObject)Instantiate(GridTileRock, pos, transform.rotation);
-        }
 
-        if (TType.Equals("gem"))
-        {
-            go = (GameObject)Instantiate(GridTileGem, pos, transform.rotation);
-            gridLayer.TreasureLocation = new Vector2(x, y);
-        }
+        go = (GameObject)Instantiate(prefab, pos, transform.rotation);
+
+        
 
         //go.transform.position = pos;
 

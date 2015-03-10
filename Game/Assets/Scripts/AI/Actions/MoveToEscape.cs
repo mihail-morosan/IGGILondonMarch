@@ -28,7 +28,6 @@ public class MoveToEscape : GoapAction
 
     void Start()
     {
-
         mainChar = GetComponent<MainCharacter>();
     }
 
@@ -51,19 +50,11 @@ public class MoveToEscape : GoapAction
 
     public override bool checkProceduralPrecondition(GameObject agent)
     {
-        //TODO
         mainChar.isMoving = true;
-
-        nextTile = null; //nextTile = mainChar.gridLayer.GetGrid()[(int)mainChar.Location.x + 1, (int)mainChar.Location.y];
 
         List<GridTile> path = mainChar.gridLayer.GetBestPathToTile(mainChar.gridLayer.GetTile(mainChar.Location), mainChar.gridLayer.GetTile(mainChar.gridLayer.EscapeLocation));
         if (path.Count > 0)
         {
-            //foreach(var x in path)
-            {
-            //    Debug.Log(x.Location);
-            }
-            //Debug.Log(path);
             nextTile = path[path.Count - 1];
         }
         else
@@ -81,8 +72,6 @@ public class MoveToEscape : GoapAction
     {
         if (startTime == 0)
             startTime = Time.time;
-
-        //mainChar.isMoving = true;
 
         if (nextTile.Passable)
             mainChar.MoveToLocation(nextTile.Location);

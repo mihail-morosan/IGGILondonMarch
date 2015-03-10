@@ -14,14 +14,10 @@ public class SmashRocks : GoapAction {
 
     public SmashRocks()
     {
-        //addPrecondition("isTreasureProtected", true);
         addPrecondition("isWerewolfNearby", false);
-        //addPrecondition("hasTreasure", false);
 
-        //addEffect("hasTreasure", true);
         addEffect("isTreasureProtected", false);
         addEffect("isEscapeRouteClear", true);
-        //addEffect("canEscape", true);
 	}
 	
     void Start()
@@ -52,8 +48,6 @@ public class SmashRocks : GoapAction {
 	{
         mainChar.isMoving = true;
 
-        //float dist = 1000;
-
         GridTile destination = mainChar.hasTreasure ? mainChar.gridLayer.GetTile(mainChar.gridLayer.EscapeLocation) : mainChar.gridLayer.GetTile(mainChar.gridLayer.TreasureLocation);
 
         List<GridTile> path = mainChar.gridLayer.GetBestPathToTile(mainChar.gridLayer.GetTile(mainChar.Location), destination);
@@ -65,7 +59,6 @@ public class SmashRocks : GoapAction {
                 finalTile = p;
                 break;
             }
-            //nextTile = p;
         }
 
         if(finalTile == null)
@@ -73,23 +66,6 @@ public class SmashRocks : GoapAction {
             finalTile = mainChar.gridLayer.GetTile(mainChar.Location);
             nextTile = mainChar.gridLayer.GetTile(mainChar.Location);
         }
-
-        //System.Random rand = new System.Random();
-        /*for (int i = 0; i < 4; i++)
-        {
-            GridTile treasureN = mainChar.gridLayer.GetTile(GridLayer.GetNeighbour(mainChar.gridLayer.TreasureLocation, i));
-            if (treasureN != null)
-            {
-                if (!treasureN.Passable && (treasureN.Location - mainChar.Location).magnitude < dist)
-                {
-                    finalTile = treasureN;
-                    dist = (treasureN.Location - mainChar.Location).magnitude;
-                    //nextTile = treasureN;
-                }
-            }
-        }
-
-        Debug.Log("Dist is " + dist);*/
 
         path = mainChar.gridLayer.GetBestPathToTile(finalTile, mainChar.gridLayer.GetTile(mainChar.Location));
         if (path.Count > 1)
@@ -100,10 +76,6 @@ public class SmashRocks : GoapAction {
         {
             nextTile = mainChar.gridLayer.GetTile(mainChar.Location);
         }
-
-
-
-        //Debug.Log(nextTile.Location);
 
         if(nextTile!=null)
             target = nextTile.VisualTile.gameObject;
@@ -116,11 +88,7 @@ public class SmashRocks : GoapAction {
         if (startTime == 0)
 			startTime = Time.time;
 
-        //mainChar.isMoving = true;
-
         mainChar.MoveToLocation(nextTile.Location);
-
-        //Debug.Log((nextTile.Location - finalTile.Location).magnitude);
 
         if ((nextTile.Location - finalTile.Location).magnitude <= 1)
         {
@@ -135,7 +103,6 @@ public class SmashRocks : GoapAction {
         {
             if ((nextTile.Location - finalTile.Location).magnitude <= 1)
             {
-                //Debug.Log("Got there");
                 mainChar.gridLayer.MakeGrassGrid(finalTile);
                 hasMoved = true;
             }

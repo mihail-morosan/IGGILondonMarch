@@ -53,6 +53,8 @@ public class RoamAround : GoapAction {
         if (path.Count > 0)
         {
             nextTile = path[path.Count - 1];
+            if (nextTile.Passable == false)
+                nextTile = null;
         }
 
         if(nextTile!=null)

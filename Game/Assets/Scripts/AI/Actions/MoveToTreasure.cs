@@ -20,13 +20,10 @@ public class MoveToTreasure : GoapAction {
 		addPrecondition ("isWerewolfNearby", false);
 
 		addEffect ("hasTreasure", true);
-
-        //addEffect("canEscape", true);
 	}
 	
     void Start()
     {
-
         mainChar = GetComponent<MainCharacter>();
     }
 	
@@ -49,19 +46,11 @@ public class MoveToTreasure : GoapAction {
 	
 	public override bool checkProceduralPrecondition (GameObject agent)
 	{
-		//TODO
         mainChar.isMoving = true;
-
-        nextTile = null; //nextTile = mainChar.gridLayer.GetGrid()[(int)mainChar.Location.x + 1, (int)mainChar.Location.y];
 
         List<GridTile> path = mainChar.gridLayer.GetBestPathToTile(mainChar.gridLayer.GetTile(mainChar.Location), mainChar.gridLayer.GetTile(mainChar.gridLayer.TreasureLocation));
         if (path.Count > 0)
         {
-            //foreach(var x in path)
-            //{
-            //    Debug.Log(x.Location);
-            //}
-            //Debug.Log(path);
             nextTile = path[path.Count - 1];
         }
         else
@@ -80,28 +69,17 @@ public class MoveToTreasure : GoapAction {
         if (startTime == 0)
 			startTime = Time.time;
 
-        //mainChar.isMoving = true;
-
         mainChar.MoveToLocation(nextTile.Location);
 
         if (mainChar.Location.Equals(mainChar.gridLayer.TreasureLocation))
         {
             mainChar.hasTreasure = true;
-            return false;
         }
         else
         {
             hasMoved = true;
-            return false;
         }
 
-        if (Time.time - startTime > workDuration)
-        {
-            hasMoved = true;
-            //mainChar.isMoving = false;
-            
-            return false;
-        }
-		return true;
+		return false;
 	}
 }

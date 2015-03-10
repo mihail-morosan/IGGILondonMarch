@@ -122,11 +122,29 @@ public abstract class CharacterBasicBehaviour : MonoBehaviour, IGoap {
         float step = MoveSpeed * Time.deltaTime;
         gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, nextAction.target.transform.position, step);
 
-        if ((gameObject.transform.position - nextAction.target.transform.position).magnitude < 0.1f)
+        Animator animator = GetComponent<Animator>();
+
+        if (animator != null)
+        {
+            int direction = 0;
+            Vector3 dir = nextAction.target.transform.position - gameObject.transform.position;
+            if (dir.x > 0)
+                direction = 1;
+            if (dir.x < 0)
+                direction = 3;
+            if (dir.y > 0)
+                direction = 0;
+            if (dir.y < 0)
+                direction = 2;
+            animator.SetInteger("Direction", direction);
+        }
+
+        if ((gameObject.transform.position - nextAction.target.transform.position).magnitude == 0)
         {
             // we are at the target location, we are done
             gameObject.transform.position = nextAction.target.transform.position;
             nextAction.setInRange(true);
+
             return true;
         }
         else
