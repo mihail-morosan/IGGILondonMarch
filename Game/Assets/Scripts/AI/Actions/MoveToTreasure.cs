@@ -73,6 +73,7 @@ public class MoveToTreasure : GoapAction {
 
         if (mainChar.Location.Equals(mainChar.gridLayer.TreasureLocation))
         {
+            mainChar.gridLayer.MakeGrassGrid(mainChar.gridLayer.GetTile(mainChar.gridLayer.TreasureLocation));
             mainChar.hasTreasure = true;
         }
         else

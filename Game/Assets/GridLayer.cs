@@ -132,7 +132,7 @@ public class GridLayer : MonoBehaviour {
 
                 GridTile neighbour = GetTile(neighbourLoc);
                 //if (neighbour != null && neighbour.Passable)
-                if(neighbour != null)
+                if (neighbour != null && neighbour.CostToPass < 1000000)
                 {
                     float new_cost = cost_so_far[current.GameTile] + neighbour.CostToPass;
 
@@ -193,6 +193,11 @@ public class GridLayer : MonoBehaviour {
                     {
                         Grid[i, y].CostToPass = 1000;
                         isNotSafe = true;
+                    }
+
+                    if(Grid[i,y].TileType.Equals("blank"))
+                    {
+                        Grid[i, y].CostToPass = 1000000;
                     }
 
                     if (!isNotSafe)

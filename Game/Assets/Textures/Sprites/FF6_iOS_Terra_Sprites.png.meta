@@ -1,0 +1,517 @@
+fileFormatVersion: 2
+guid: e6b2d090e66fef94dbc317e0d9633caa
+timeCreated: 1425993084
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: FF6_iOS_Terra_Sprites_0
+    21300002: FF6_iOS_Terra_Sprites_1
+    21300004: FF6_iOS_Terra_Sprites_2
+    21300006: FF6_iOS_Terra_Sprites_3
+    21300008: FF6_iOS_Terra_Sprites_4
+    21300010: FF6_iOS_Terra_Sprites_5
+    21300012: FF6_iOS_Terra_Sprites_6
+    21300014: FF6_iOS_Terra_Sprites_7
+    21300016: FF6_iOS_Terra_Sprites_8
+    21300018: FF6_iOS_Terra_Sprites_9
+    21300020: FF6_iOS_Terra_Sprites_10
+    21300022: FF6_iOS_Terra_Sprites_11
+    21300024: FF6_iOS_Terra_Sprites_12
+    21300026: FF6_iOS_Terra_Sprites_13
+    21300028: FF6_iOS_Terra_Sprites_14
+    21300030: FF6_iOS_Terra_Sprites_15
+    21300032: FF6_iOS_Terra_Sprites_16
+    21300034: FF6_iOS_Terra_Sprites_17
+    21300036: FF6_iOS_Terra_Sprites_18
+    21300038: FF6_iOS_Terra_Sprites_19
+    21300040: FF6_iOS_Terra_Sprites_20
+    21300042: FF6_iOS_Terra_Sprites_21
+    21300044: FF6_iOS_Terra_Sprites_22
+    21300046: FF6_iOS_Terra_Sprites_23
+    21300048: FF6_iOS_Terra_Sprites_24
+    21300050: FF6_iOS_Terra_Sprites_25
+    21300052: FF6_iOS_Terra_Sprites_26
+    21300054: FF6_iOS_Terra_Sprites_27
+    21300056: FF6_iOS_Terra_Sprites_28
+    21300058: FF6_iOS_Terra_Sprites_29
+    21300060: FF6_iOS_Terra_Sprites_30
+    21300062: FF6_iOS_Terra_Sprites_31
+    21300064: FF6_iOS_Terra_Sprites_32
+    21300066: FF6_iOS_Terra_Sprites_33
+    21300068: FF6_iOS_Terra_Sprites_34
+    21300070: FF6_iOS_Terra_Sprites_35
+    21300072: FF6_iOS_Terra_Sprites_36
+    21300074: FF6_iOS_Terra_Sprites_37
+    21300076: FF6_iOS_Terra_Sprites_38
+    21300078: FF6_iOS_Terra_Sprites_39
+    21300080: FF6_iOS_Terra_Sprites_40
+    21300082: FF6_iOS_Terra_Sprites_41
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 60
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: FF6_iOS_Terra_Sprites_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 190
+        width: 24
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_1
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 191
+        width: 24
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_2
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 190
+        width: 26
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_3
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 190
+        width: 22
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_4
+      rect:
+        serializedVersion: 2
+        x: 194
+        y: 191
+        width: 22
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_5
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 190
+        width: 22
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_6
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 190
+        width: 26
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_7
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 190
+        width: 26
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_8
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 190
+        width: 28
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_9
+      rect:
+        serializedVersion: 2
+        x: 431
+        y: 190
+        width: 26
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_10
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 142
+        width: 28
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_11
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 143
+        width: 36
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_12
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 142
+        width: 26
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_13
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 142
+        width: 26
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_14
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 142
+        width: 29
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_15
+      rect:
+        serializedVersion: 2
+        x: 237
+        y: 143
+        width: 29
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_16
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 143
+        width: 27
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_17
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 143
+        width: 27
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_18
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 143
+        width: 24
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_19
+      rect:
+        serializedVersion: 2
+        x: 427
+        y: 143
+        width: 29
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_20
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 95
+        width: 29
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_21
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 95
+        width: 24
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_22
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 95
+        width: 24
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_23
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 95
+        width: 47
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_24
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 95
+        width: 24
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_25
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 95
+        width: 26
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_26
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 95
+        width: 24
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_27
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 96
+        width: 37
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_28
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 95
+        width: 24
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_29
+      rect:
+        serializedVersion: 2
+        x: 433
+        y: 95
+        width: 23
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_30
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 47
+        width: 24
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_31
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 47
+        width: 24
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_32
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 47
+        width: 22
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_33
+      rect:
+        serializedVersion: 2
+        x: 139
+        y: 46
+        width: 29
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_34
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 47
+        width: 26
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_35
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 46
+        width: 26
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_36
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 47
+        width: 24
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_37
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 47
+        width: 24
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_38
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 47
+        width: 27
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_39
+      rect:
+        serializedVersion: 2
+        x: 426
+        y: 48
+        width: 37
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_40
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 30
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FF6_iOS_Terra_Sprites_41
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 0
+        width: 32
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

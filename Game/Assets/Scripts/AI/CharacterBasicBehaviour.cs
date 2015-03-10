@@ -19,6 +19,8 @@ public abstract class CharacterBasicBehaviour : MonoBehaviour, IGoap {
 
     public bool isBad = false;
 
+    int lastDirection = 0;
+
     /**
      * Key-Value data that will feed the GOAP actions and system while planning.
      */
@@ -126,17 +128,29 @@ public abstract class CharacterBasicBehaviour : MonoBehaviour, IGoap {
 
         if (animator != null)
         {
-            int direction = 0;
+            Vector3 theScale = transform.localScale;
+            theScale.x = 1;
+
+            int direction = lastDirection;
             Vector3 dir = nextAction.target.transform.position - gameObject.transform.position;
             if (dir.x > 0)
+            {
                 direction = 1;
+            }
             if (dir.x < 0)
                 direction = 3;
             if (dir.y > 0)
                 direction = 0;
             if (dir.y < 0)
                 direction = 2;
+
+            if(direction == 1)
+                theScale.x *= -1; ;
+
             animator.SetInteger("Direction", direction);
+            lastDirection = direction;
+
+            transform.localScale = theScale;
         }
 
         if ((gameObject.transform.position - nextAction.target.transform.position).magnitude == 0)

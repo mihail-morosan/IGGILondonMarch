@@ -101,14 +101,14 @@ public class BuildBlockade : GoapAction {
         
         mainChar.isMoving = false;
 
-        //Build blockade here
         if (nextTile.Equals(finalTile))
         {
-            //mainChar.gridLayer.MakeRockGrid(nextTile);
-            //mainChar.hasRocks = false;
         }
         else
+        {
             hasMoved = true;
+            return false;
+        }
 
         if (Time.time - startTime > workDuration)
         {
