@@ -26,35 +26,47 @@ public abstract class CharacterBasicBehaviour : MonoBehaviour, IGoap {
     {
         HashSet<KeyValuePair<string, object>> worldData = new HashSet<KeyValuePair<string, object>>();
 
-        //worldData.Add(new KeyValuePair<string, object>("hasOre", (backpack.numOre > 0)));
-
         MainCharacter mainChar = FindObjectOfType<MainCharacter>();
         DruidBehaviour druidChar = FindObjectOfType<DruidBehaviour>();
         WerewolfBehaviour wereChar = FindObjectOfType<WerewolfBehaviour>();
 
         worldData.Add(new KeyValuePair<string, object>("hasTreasure", mainChar.hasTreasure));
+
         worldData.Add(new KeyValuePair<string, object>("canEscape", hasTreasure && Location == gridLayer.EscapeLocation));
 
-        //And some other stuff
-        bool isTreasureProtected = true;
-        for (int i = 0; i < 4;i++ )
+        bool isEscapeRouteClear = true;
+
+        List<GridTile> path = gridLayer.GetBestPathToTile(gridLayer.GetTile(mainChar.Location), gridLayer.GetTile(gridLayer.EscapeLocation));
+
+        foreach (var p in path)
         {
-            GridTile treasureN = gridLayer.GetTile(GridLayer.GetNeighbour(gridLayer.TreasureLocation, i));
-            if(treasureN != null)
+            if (p.Passable == false)
             {
-                if (treasureN.Passable)
-                    isTreasureProtected = false;
+                isEscapeRouteClear = false;
+                break;
             }
         }
 
-        FindObjectOfType<Text>().text = "Treasure is protected: " + isTreasureProtected;
+        worldData.Add(new KeyValuePair<string, object>("isEscapeRouteClear", isEscapeRouteClear)); 
+
+        bool isTreasureProtected = false;
+
+        path = gridLayer.GetBestPathToTile(gridLayer.GetTile(mainChar.Location), gridLayer.GetTile(gridLayer.TreasureLocation));
+
+        foreach(var p in path)
+        {
+            if(p.Passable == false)
+            {
+                isTreasureProtected = true;
+                break;
+            }
+        }
+
+        FindObjectOfType<Text>().text = "Path is clear: " + isEscapeRouteClear;
         
         worldData.Add(new KeyValuePair<string, object>("isTreasureProtected", isTreasureProtected));
 
-        //Has rocks
         worldData.Add(new KeyValuePair<string, object>("hasRocks", hasRocks));
-
-        //worldData.Add(new KeyValuePair<string, object>("canBuildRockBlockade", hasRocks && !isTreasureProtected));
 
         worldData.Add(new KeyValuePair<string, object>("isHumanNearby", isBad && (mainChar.Location - Location).magnitude < 2.5f));
 
@@ -67,9 +79,7 @@ public abstract class CharacterBasicBehaviour : MonoBehaviour, IGoap {
 
     public void MoveToLocation(Vector2 Loc)
     {
-        //TODO check if target is ok
         Location = Loc;
-        //Debug.Log(gridLayer.GetGrid()[(int)Location.x, (int)Location.y]);
         transform.position = gridLayer.GetGrid()[(int)Location.x, (int)Location.y].VisualTile.transform.position;
     }
 
@@ -126,7 +136,6 @@ public abstract class CharacterBasicBehaviour : MonoBehaviour, IGoap {
 	// Use this for initialization
 	void Start () {
         gridLayer = GetComponent<GridLayer>();
-        //MoveToLocation(Location);
 	}
 	
 	// Update is called once per frame

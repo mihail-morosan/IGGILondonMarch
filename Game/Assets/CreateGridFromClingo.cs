@@ -91,11 +91,11 @@ public class CreateGridFromClingo : MonoBehaviour {
 
                 go = CreateVisualTile(x, y, TType);
 
-                gridLayer.CreateGridTile(x, y, go, TType, TType.Equals("grass"));
-
-               
+                gridLayer.CreateGridTile(x, y, go, TType, !TType.Equals("rock"));
             }
         }
+
+        gridLayer.UpdateAllGridTileCosts();
     }
 
     public GameObject CreateVisualTile(int x, int y, string TType)

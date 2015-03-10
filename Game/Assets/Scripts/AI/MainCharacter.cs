@@ -17,7 +17,7 @@ public class MainCharacter : CharacterBasicBehaviour {
 
         //goal.Add(new KeyValuePair<string, object>("isTreasureProtected", false));
 
-        //goal.Add(new KeyValuePair<string, object>("canEscape", true));
+        goal.Add(new KeyValuePair<string, object>("canEscape", true));
 
         //goal.Add(new KeyValuePair<string, object>("isWerewolfNearby", false));
 

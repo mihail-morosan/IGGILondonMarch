@@ -13,6 +13,8 @@ public class MoveToTreasure : GoapAction {
 
     public MoveToTreasure()
     {
+        addPrecondition("hasTreasure", false);
+
         addPrecondition("isTreasureProtected", false);
 
 		addPrecondition ("isWerewolfNearby", false);
@@ -85,10 +87,12 @@ public class MoveToTreasure : GoapAction {
         if (mainChar.Location.Equals(mainChar.gridLayer.TreasureLocation))
         {
             mainChar.hasTreasure = true;
+            return false;
         }
         else
         {
             hasMoved = true;
+            return false;
         }
 
         if (Time.time - startTime > workDuration)

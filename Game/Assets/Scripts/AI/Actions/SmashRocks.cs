@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class SmashRocks : GoapAction {
-    CharacterBasicBehaviour mainChar;
+    CharacterBasicBehaviour mainChar = null;
 
     GridTile nextTile = null;
     GridTile finalTile = null;
@@ -14,12 +14,13 @@ public class SmashRocks : GoapAction {
 
     public SmashRocks()
     {
-        addPrecondition("isTreasureProtected", true);
+        //addPrecondition("isTreasureProtected", true);
         addPrecondition("isWerewolfNearby", false);
         //addPrecondition("hasTreasure", false);
 
         //addEffect("hasTreasure", true);
         addEffect("isTreasureProtected", false);
+        addEffect("isEscapeRouteClear", true);
         //addEffect("canEscape", true);
 	}
 	
@@ -51,12 +52,30 @@ public class SmashRocks : GoapAction {
 	{
         mainChar.isMoving = true;
 
-        nextTile = null;
+        //float dist = 1000;
 
-        float dist = 1000;
+        GridTile destination = mainChar.hasTreasure ? mainChar.gridLayer.GetTile(mainChar.gridLayer.EscapeLocation) : mainChar.gridLayer.GetTile(mainChar.gridLayer.TreasureLocation);
+
+        List<GridTile> path = mainChar.gridLayer.GetBestPathToTile(mainChar.gridLayer.GetTile(mainChar.Location), destination);
+
+        foreach (var p in path)
+        {
+            if (p.Passable == false)
+            {
+                finalTile = p;
+                break;
+            }
+            //nextTile = p;
+        }
+
+        if(finalTile == null)
+        {
+            finalTile = mainChar.gridLayer.GetTile(mainChar.Location);
+            nextTile = mainChar.gridLayer.GetTile(mainChar.Location);
+        }
 
         //System.Random rand = new System.Random();
-        for (int i = 0; i < 4; i++)
+        /*for (int i = 0; i < 4; i++)
         {
             GridTile treasureN = mainChar.gridLayer.GetTile(GridLayer.GetNeighbour(mainChar.gridLayer.TreasureLocation, i));
             if (treasureN != null)
@@ -70,9 +89,9 @@ public class SmashRocks : GoapAction {
             }
         }
 
-        Debug.Log("Dist is " + dist);
+        Debug.Log("Dist is " + dist);*/
 
-        List<GridTile> path = mainChar.gridLayer.GetBestPathToTile(finalTile, mainChar.gridLayer.GetTile(mainChar.Location));
+        path = mainChar.gridLayer.GetBestPathToTile(finalTile, mainChar.gridLayer.GetTile(mainChar.Location));
         if (path.Count > 1)
         {
             nextTile = path[1];
@@ -81,6 +100,8 @@ public class SmashRocks : GoapAction {
         {
             nextTile = mainChar.gridLayer.GetTile(mainChar.Location);
         }
+
+
 
         //Debug.Log(nextTile.Location);
 
@@ -101,7 +122,6 @@ public class SmashRocks : GoapAction {
 
         //Debug.Log((nextTile.Location - finalTile.Location).magnitude);
 
-        //Build blockade here
         if ((nextTile.Location - finalTile.Location).magnitude <= 1)
         {
         }

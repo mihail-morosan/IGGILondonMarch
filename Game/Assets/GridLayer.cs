@@ -33,6 +33,8 @@ public class GridLayer : MonoBehaviour {
 
     //public bool TreasureStolen = false;
 
+    float lastUpdate = 0;
+
     public GridTile[,] GetGrid()
     {
         return Grid;
@@ -129,7 +131,8 @@ public class GridLayer : MonoBehaviour {
                 Vector2 neighbourLoc = GetNeighbour(current.GameTile.Location, i);
 
                 GridTile neighbour = GetTile(neighbourLoc);
-                if (neighbour != null && neighbour.Passable)
+                //if (neighbour != null && neighbour.Passable)
+                if(neighbour != null)
                 {
                     float new_cost = cost_so_far[current.GameTile] + neighbour.CostToPass;
 
@@ -166,9 +169,50 @@ public class GridLayer : MonoBehaviour {
 	void Start () {
 	    
 	}
+
+    public void UpdateAllGridTileCosts()
+    {
+        
+        Vector2 wereChar = (FindObjectOfType<WerewolfBehaviour>() != null) ? 
+            FindObjectOfType<WerewolfBehaviour>().Location : new Vector2(-1000,-1000) ;
+        bool isNotSafe = false;
+        for(int i = 0; i < Grid.GetUpperBound(0); i++)
+        {
+            for(int y=0; y < Grid.GetUpperBound(1); y++)
+            {
+                if (Grid[i, y] != null)
+                {
+                    isNotSafe = false;
+                    if ((Grid[i, y].Location - wereChar).magnitude < 2)
+                    {
+                        Grid[i, y].CostToPass = 5;
+                        isNotSafe = true;
+                    }
+
+                    if (Grid[i, y].Passable == false)
+                    {
+                        Grid[i, y].CostToPass = 1000;
+                        isNotSafe = true;
+                    }
+
+                    if (!isNotSafe)
+                    {
+                        Grid[i, y].CostToPass = 1;
+                    }
+                }
+            }
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
-	
+        if (lastUpdate == 0)
+            lastUpdate = Time.time;
+
+        if (Time.time - lastUpdate > 1)
+        {
+            UpdateAllGridTileCosts();
+            lastUpdate = Time.time;
+        }
 	}
 }

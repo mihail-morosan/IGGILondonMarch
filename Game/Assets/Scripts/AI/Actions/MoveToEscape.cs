@@ -21,6 +21,8 @@ public class MoveToEscape : GoapAction
 
         addPrecondition("isWerewolfNearby", false);
 
+        addPrecondition("isEscapeRouteClear", true);
+
         addEffect("canEscape", true);
     }
 
@@ -39,7 +41,7 @@ public class MoveToEscape : GoapAction
 
     public override bool isDone()
     {
-        return mainChar.Location.Equals(mainChar.gridLayer.EscapeLocation);
+        return hasMoved;
     }
 
     public override bool requiresInRange()
@@ -58,9 +60,9 @@ public class MoveToEscape : GoapAction
         if (path.Count > 0)
         {
             //foreach(var x in path)
-            //{
+            {
             //    Debug.Log(x.Location);
-            //}
+            }
             //Debug.Log(path);
             nextTile = path[path.Count - 1];
         }
@@ -82,10 +84,14 @@ public class MoveToEscape : GoapAction
 
         //mainChar.isMoving = true;
 
-        mainChar.MoveToLocation(nextTile.Location);
+        if (nextTile.Passable)
+            mainChar.MoveToLocation(nextTile.Location);
+        else
+            return false;
 
         if (mainChar.Location.Equals(mainChar.gridLayer.EscapeLocation))
         {
+            hasMoved = true;
         }
         else
         {
