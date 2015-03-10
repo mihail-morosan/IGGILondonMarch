@@ -58,7 +58,13 @@ public class GridLayer : MonoBehaviour {
         Grid[x, y].Passable = Passable;
         Grid[x, y].VisualTile = VTile;
         Grid[x, y].Location = new Vector2(x, y);
+
         //Debug.Log(x + " " + y);
+    }
+
+    public void MakeEffect(GridTile tile, string type)
+    {
+        GameObject go = GetComponent<CreateGridFromClingo>().CreateVisualTile((int)tile.Location.x, (int)tile.Location.y, type);
     }
 
     public void MakeRockGrid(GridTile tile)
@@ -172,9 +178,8 @@ public class GridLayer : MonoBehaviour {
 
     public void UpdateAllGridTileCosts()
     {
-        
-        Vector2 wereChar = (FindObjectOfType<WerewolfBehaviour>() != null) ? 
-            FindObjectOfType<WerewolfBehaviour>().Location : new Vector2(-1000,-1000) ;
+        //Vector2 wereChar = (FindObjectOfType<WerewolfBehaviour>() != null) ? 
+        //    FindObjectOfType<WerewolfBehaviour>().Location : new Vector2(-1000,-1000) ;
         bool isNotSafe = false;
         for(int i = 0; i < Grid.GetUpperBound(0); i++)
         {
@@ -183,11 +188,12 @@ public class GridLayer : MonoBehaviour {
                 if (Grid[i, y] != null)
                 {
                     isNotSafe = false;
-                    if ((Grid[i, y].Location - wereChar).magnitude < 2)
-                    {
-                        Grid[i, y].CostToPass = 5;
-                        isNotSafe = true;
-                    }
+                    foreach(var w in FindObjectsOfType<WerewolfBehaviour>())
+                        if ((Grid[i, y].Location - w.Location).magnitude < 2)
+                        {
+                            Grid[i, y].CostToPass = 10;
+                            isNotSafe = true;
+                        }
 
                     if (Grid[i, y].Passable == false)
                     {
@@ -218,6 +224,33 @@ public class GridLayer : MonoBehaviour {
         {
             UpdateAllGridTileCosts();
             lastUpdate = Time.time;
+        }
+
+        //MainCharacter mainChar = FindObjectOfType<MainCharacter>();
+        foreach (var mainChar in FindObjectsOfType<MainCharacter>())
+        {
+            if (mainChar.Location.Equals(EscapeLocation) && mainChar.hasTreasure)
+            {
+                //Victory
+
+                //Debug.Log("Victory");
+
+                Time.timeScale = 0;
+            }
+
+            foreach (var w in FindObjectsOfType<WerewolfBehaviour>())
+            {
+                if (mainChar.Location.Equals(w.Location))
+                {
+                    //Defeat
+
+                    MakeEffect(GetTile(mainChar.Location), "death");
+
+                    Destroy(mainChar.gameObject);
+
+                    Debug.LogWarning("Defeat");
+                }
+            }
         }
 	}
 }

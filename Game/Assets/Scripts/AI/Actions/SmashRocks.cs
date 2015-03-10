@@ -101,10 +101,14 @@ public class SmashRocks : GoapAction {
 
         if (Time.time - startTime > workDuration)
         {
-            if ((nextTile.Location - finalTile.Location).magnitude <= 1)
+            if ((mainChar.Location - finalTile.Location).magnitude <= 1)
             {
                 mainChar.gridLayer.MakeGrassGrid(finalTile);
                 hasMoved = true;
+
+                mainChar.gridLayer.MakeEffect(finalTile, "fire");
+
+                return false;
             }
         }
 		return true;

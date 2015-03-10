@@ -63,7 +63,11 @@
      <Compile Include="Assets\Scripts\Libraries\HSPriorityQueue\HeapPriorityQueue.cs" />
      <Compile Include="Assets\Scripts\Libraries\HSPriorityQueue\IPriorityQueue.cs" />
      <Compile Include="Assets\Scripts\Libraries\HSPriorityQueue\PriorityQueueNode.cs" />
+     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
+     <None Include="Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
+     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAddSoft.shader" />
+     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />
  <Reference Include="Assembly-UnityScript-firstpass">
  <HintPath>D:/GitHub/IGGILondonMarch/Game/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
  </Reference>

@@ -28,49 +28,68 @@ public abstract class CharacterBasicBehaviour : MonoBehaviour, IGoap {
     {
         HashSet<KeyValuePair<string, object>> worldData = new HashSet<KeyValuePair<string, object>>();
 
-        MainCharacter mainChar = FindObjectOfType<MainCharacter>();
-        DruidBehaviour druidChar = FindObjectOfType<DruidBehaviour>();
-        WerewolfBehaviour wereChar = FindObjectOfType<WerewolfBehaviour>();
+        MainCharacter mainChar = GetComponent<MainCharacter>();
+        //DruidBehaviour druidChar = FindObjectOfType<DruidBehaviour>();
+        WerewolfBehaviour wereChar = null;
 
-        worldData.Add(new KeyValuePair<string, object>("hasTreasure", mainChar.hasTreasure));
+        float dist = 10000;
+        foreach(WerewolfBehaviour w in FindObjectsOfType<WerewolfBehaviour>())
+        {
+            if((Location - w.Location).magnitude < dist)
+            {
+                wereChar = w;
+                dist = (Location - w.Location).magnitude;
+            }
+        }
+
+        worldData.Add(new KeyValuePair<string, object>("hasTreasure", hasTreasure));
 
         worldData.Add(new KeyValuePair<string, object>("canEscape", hasTreasure && Location == gridLayer.EscapeLocation));
 
         bool isEscapeRouteClear = true;
 
-        List<GridTile> path = gridLayer.GetBestPathToTile(gridLayer.GetTile(mainChar.Location), gridLayer.GetTile(gridLayer.EscapeLocation));
-
-        foreach (var p in path)
+        List<GridTile> path;
+        if (mainChar != null)
         {
-            if (p.Passable == false)
+            path = gridLayer.GetBestPathToTile(gridLayer.GetTile(mainChar.Location), gridLayer.GetTile(gridLayer.EscapeLocation));
+
+            foreach (var p in path)
             {
-                isEscapeRouteClear = false;
-                break;
+                if (p.Passable == false)
+                {
+                    isEscapeRouteClear = false;
+                    break;
+                }
             }
         }
-
-        worldData.Add(new KeyValuePair<string, object>("isEscapeRouteClear", isEscapeRouteClear)); 
+ 
 
         bool isTreasureProtected = false;
 
-        path = gridLayer.GetBestPathToTile(gridLayer.GetTile(mainChar.Location), gridLayer.GetTile(gridLayer.TreasureLocation));
-
-        foreach(var p in path)
+        foreach (MainCharacter w in FindObjectsOfType<MainCharacter>())
         {
-            if(p.Passable == false)
+            
+            path = gridLayer.GetBestPathToTile(gridLayer.GetTile(w.Location), gridLayer.GetTile(gridLayer.TreasureLocation));
+
+            foreach(var p in path)
             {
-                isTreasureProtected = true;
-                break;
+                if(p.Passable == false)
+                {
+                    isTreasureProtected = true;
+                    break;
+                }
             }
+
         }
 
-        FindObjectOfType<Text>().text = "Path is clear: " + isEscapeRouteClear;
+        worldData.Add(new KeyValuePair<string, object>("isEscapeRouteClear", isEscapeRouteClear));
         
         worldData.Add(new KeyValuePair<string, object>("isTreasureProtected", isTreasureProtected));
 
         worldData.Add(new KeyValuePair<string, object>("hasRocks", hasRocks));
 
-        worldData.Add(new KeyValuePair<string, object>("isHumanNearby", isBad && (mainChar.Location - Location).magnitude < 2.5f));
+        //worldData.Add(new KeyValuePair<string, object>("isHumanNearby", isBad && (mainChar.Location - Location).magnitude < 2.5f));
+        worldData.Add(new KeyValuePair<string, object>("isHumanNearby", false));
 
         worldData.Add(new KeyValuePair<string, object>("isWerewolfNearby", !isBad && wereChar != null && (wereChar.Location - Location).magnitude < 2.5f));
 

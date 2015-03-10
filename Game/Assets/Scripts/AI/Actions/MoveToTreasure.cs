@@ -75,6 +75,8 @@ public class MoveToTreasure : GoapAction {
         {
             mainChar.gridLayer.MakeGrassGrid(mainChar.gridLayer.GetTile(mainChar.gridLayer.TreasureLocation));
             mainChar.hasTreasure = true;
+
+            mainChar.gridLayer.TreasureLocation = new Vector2(-1000, -1000);
         }
         else
         {

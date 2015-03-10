@@ -124,6 +124,11 @@ public class CreateGridFromClingo : MonoBehaviour {
         }
 
         gridLayer.UpdateAllGridTileCosts();
+
+        foreach(var o in FindObjectsOfType<CharacterBasicBehaviour>())
+        {
+            o.MoveToLocation(o.Location);
+        }
     }
 
     public GameObject CreateVisualTile(int x, int y, string TType)

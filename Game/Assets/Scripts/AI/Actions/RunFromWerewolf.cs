@@ -5,7 +5,6 @@ using System.Collections.Generic;
 public class RunFromWerewolf : GoapAction {
     CharacterBasicBehaviour mainChar;
 
-    WerewolfBehaviour wereChar;
     GridTile nextTile = null;
 
     bool hasMoved = false;
@@ -22,7 +21,6 @@ public class RunFromWerewolf : GoapAction {
 	
     void Start()
     {
-        wereChar = FindObjectOfType<WerewolfBehaviour>();
         mainChar = GetComponent<CharacterBasicBehaviour>();
     }
 	
@@ -45,7 +43,16 @@ public class RunFromWerewolf : GoapAction {
 	
 	public override bool checkProceduralPrecondition (GameObject agent)
 	{
-		//TODO
+        WerewolfBehaviour wereChar = null;
+        float dist = 10000;
+        foreach (WerewolfBehaviour w in FindObjectsOfType<WerewolfBehaviour>())
+        {
+            if ((mainChar.Location - w.Location).magnitude < dist)
+            {
+                wereChar = w;
+                dist = (mainChar.Location - w.Location).magnitude;
+            }
+        }
 
         if (wereChar == null)
             return true;
@@ -62,7 +69,7 @@ public class RunFromWerewolf : GoapAction {
                     nextTile = path[path.Count - 1];
                     float NewDistance = (wereChar.Location - nextTile.Location).magnitude;
 
-                    if (NewDistance <= CurrentDistance)
+                    if (NewDistance <= CurrentDistance || !nextTile.Passable)
                         nextTile = null;
                 }
 
@@ -81,7 +88,8 @@ public class RunFromWerewolf : GoapAction {
 
         if (Time.time - startTime > workDuration)
         {
-            mainChar.MoveToLocation(nextTile.Location);
+            if(nextTile.Passable)
+                mainChar.MoveToLocation(nextTile.Location);
             hasMoved = true;
             mainChar.isMoving = false;
             nextTile = null;
