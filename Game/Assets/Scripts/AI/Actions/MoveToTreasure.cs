@@ -49,14 +49,16 @@ public class MoveToTreasure : GoapAction {
 	{
         mainChar.isMoving = true;
 
-        List<GridTile> path = mainChar.gridLayer.GetBestPathToTile(mainChar.gridLayer.GetTile(mainChar.gridLayer.TreasureLocation), mainChar.gridLayer.GetTile(mainChar.Location));
+        //Debug.LogWarning("ProcMove " + agent.name);
+
+        List<GridTile> path = mainChar.gridLayer.GetBestPathToTile(mainChar.gridLayer.GetTile(mainChar.Location), mainChar.gridLayer.GetTile(mainChar.gridLayer.TreasureLocation));
+        
         if (path.Count > 1)
         {
-            nextTile = path[1];
+            nextTile = path[path.Count - 1];
         }
         else
         {
-
             nextTile = mainChar.gridLayer.GetTile(mainChar.Location);
             if((mainChar.Location - mainChar.gridLayer.TreasureLocation).magnitude <= 1)
             {
@@ -83,6 +85,9 @@ public class MoveToTreasure : GoapAction {
             mainChar.hasTreasure = true;
 
             mainChar.gridLayer.TreasureLocation = new Vector2(-1000, -1000);
+
+            hasMoved = true;
+            return false;
         }
         else
         {

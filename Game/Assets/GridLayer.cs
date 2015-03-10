@@ -36,9 +36,17 @@ public class GridLayer : MonoBehaviour {
 
     float lastUpdate = 0;
 
+    bool gameIsOver = false;
+
+    public Text DebugPanel;
     public void ClearEverything()
     {
+        Debug.LogWarning("Clearing everything in grid");
+
         Grid = new GridTile[12, 12];
+        gameIsOver = false;
+        DebugPanel.fontSize = 9;
+        lastUpdate = 0;
     }
 
     public GridTile[,] GetGrid()
@@ -70,7 +78,7 @@ public class GridLayer : MonoBehaviour {
 
     public void MakeEffect(GridTile tile, string type)
     {
-        GameObject go = GetComponent<CreateGridFromClingo>().CreateVisualTile((int)tile.Location.x, (int)tile.Location.y, type);
+        GetComponent<CreateGridFromClingo>().CreateVisualTile((int)tile.Location.x, (int)tile.Location.y, type);
     }
 
     public void MakeRockGrid(GridTile tile)
@@ -144,7 +152,7 @@ public class GridLayer : MonoBehaviour {
 
                 GridTile neighbour = GetTile(neighbourLoc);
                 //if (neighbour != null && neighbour.Passable)
-                if (neighbour != null && neighbour.CostToPass < 1000000)
+                if (neighbour != null && neighbour.CostToPass < 100000)
                 {
                     float new_cost = cost_so_far[current.GameTile] + neighbour.CostToPass;
 
@@ -172,6 +180,8 @@ public class GridLayer : MonoBehaviour {
                 path = came_from[path];
             } while (path != FromTile);
         }
+
+        //PathToTake.Add(FromTile);
 
 
         return PathToTake;
@@ -223,26 +233,47 @@ public class GridLayer : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        
         if (lastUpdate == 0)
             lastUpdate = Time.time;
+
+
 
         if (Time.time - lastUpdate > 1)
         {
             UpdateAllGridTileCosts();
             lastUpdate = Time.time;
+
+            if (FindObjectsOfType<MainCharacter>().Length == 0)
+            {
+                //Utter defeat
+                DebugPanel.text = "Spirits have won!";
+                DebugPanel.fontSize = 20;
+
+                gameIsOver = true;
+            }
+            else
+            {
+                DebugPanel.fontSize = 9;
+                gameIsOver = false;
+            }
+            
+        }
+        if (gameIsOver)
+        {
+            return;
         }
 
-        FindObjectOfType<Text>().text = "";
         //MainCharacter mainChar = FindObjectOfType<MainCharacter>();
+
+        DebugPanel.text = "";
 
         foreach (var mainChar in FindObjectsOfType<CharacterBasicBehaviour>())
         {
-            foreach (var x in mainChar.getWorldState())
-            {
-                if (x.Key.Equals("isTreasureProtected"))
-                    FindObjectOfType<Text>().text += mainChar.name + ":" + x.Key + ":" + x.Value + "\n";
-            }
+            DebugPanel.text += mainChar.name + ": " + GoapAgent.prettyPrint(mainChar.currentActions) + "\n\n";
         }
+
+        
 
         foreach (var mainChar in FindObjectsOfType<MainCharacter>())
         {
@@ -251,9 +282,13 @@ public class GridLayer : MonoBehaviour {
             {
                 //Victory
 
-                Debug.Log("Victory " + EscapeLocation + mainChar.Location);
+                //Debug.Log("Victory " + EscapeLocation + mainChar.Location);
+                DebugPanel.text = "Rogues have won!";
+                DebugPanel.fontSize = 20;
 
-                Time.timeScale = 0;
+                gameIsOver = true;
+
+                //Time.timeScale = 0;
             }
             else
             {

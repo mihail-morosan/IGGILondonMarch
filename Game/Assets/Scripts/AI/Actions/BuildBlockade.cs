@@ -53,7 +53,7 @@ public class BuildBlockade : GoapAction {
 
         nextTile = null;
 
-        for (int i = 0; i < 4; i++)
+        /*for (int i = 0; i < 4; i++)
         {
             GridTile treasureN = mainChar.gridLayer.GetTile(GridLayer.GetNeighbour(mainChar.gridLayer.TreasureLocation, i));
             if (treasureN != null)
@@ -64,7 +64,24 @@ public class BuildBlockade : GoapAction {
                     //nextTile = treasureN;
                 }
             }
+        }*/
+
+        foreach (MainCharacter w in FindObjectsOfType<MainCharacter>())
+        {
+
+            List<GridTile> path2 = mainChar.gridLayer.GetBestPathToTile(mainChar.gridLayer.GetTile(w.Location), mainChar.gridLayer.GetTile(mainChar.gridLayer.TreasureLocation));
+
+            foreach (var p in path2)
+            {
+                if (p.Passable && !p.Location.Equals(mainChar.gridLayer.TreasureLocation))
+                {
+                    finalTile = p;
+                    break;
+                }
+            }
+
         }
+
 
         /*if(finalTile == null || mainChar.Location.Equals(finalTile.Location))
         {
@@ -79,6 +96,8 @@ public class BuildBlockade : GoapAction {
             return false;
         }
 
+        //Debug.LogWarning("Next tile " + nextTile == null);
+
         List<GridTile> path = mainChar.gridLayer.GetBestPathToTile(mainChar.gridLayer.GetTile(mainChar.Location), finalTile);
         if (path.Count > 0)
         {
@@ -89,6 +108,8 @@ public class BuildBlockade : GoapAction {
             //Debug.Log(path);
             nextTile = path[path.Count - 1];
         }
+
+        //Debug.LogWarning("Next tile " + nextTile == null);
 
         if(nextTile!=null)
             target = nextTile.VisualTile.gameObject;
@@ -108,22 +129,20 @@ public class BuildBlockade : GoapAction {
 
         if (nextTile.Equals(finalTile))
         {
+            if (Time.time - startTime > workDuration)
+            {
+                mainChar.gridLayer.MakeRockGrid(nextTile);
+                mainChar.hasRocks = false;
+                hasMoved = true;
+                return false;
+            }
+            return true;
         }
         else
         {
             hasMoved = true;
-            return false;
         }
-
-        if (Time.time - startTime > workDuration)
-        {
-            if (nextTile.Equals(finalTile))
-            {
-                mainChar.gridLayer.MakeRockGrid(nextTile);
-                mainChar.hasRocks = false;
-            }
-            hasMoved = true;
-        }
-		return true;
+     
+		return false;
 	}
 }

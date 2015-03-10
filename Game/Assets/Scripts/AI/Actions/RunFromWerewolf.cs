@@ -9,7 +9,6 @@ public class RunFromWerewolf : GoapAction {
 
     bool hasMoved = false;
     private float startTime = 0;
-    public float workDuration = 1;
 
     public RunFromWerewolf()
     {
@@ -55,23 +54,29 @@ public class RunFromWerewolf : GoapAction {
         }
 
         if (wereChar == null)
+        {
+            target = mainChar.gameObject;
             return true;
+        }
 
         mainChar.isMoving = true;
  
-                float CurrentDistance = (wereChar.Location - mainChar.Location).magnitude;
+        float CurrentDistance = dist;
 
-                System.Random rand = new System.Random();
+        System.Random rand = new System.Random();
 
-                List<GridTile> path = mainChar.gridLayer.GetBestPathToTile(mainChar.gridLayer.GetTile(mainChar.Location), mainChar.gridLayer.GetTile(GridLayer.GetNeighbour(mainChar.Location, rand.Next(4))));
-                if (path.Count > 0)
-                {
-                    nextTile = path[path.Count - 1];
-                    float NewDistance = (wereChar.Location - nextTile.Location).magnitude;
+        //List<GridTile> path = mainChar.gridLayer.GetBestPathToTile(mainChar.gridLayer.GetTile(mainChar.Location), mainChar.gridLayer.GetTile(GridLayer.GetNeighbour(mainChar.Location, rand.Next(4))));
+        //if (path.Count > 1)
+        {
+            //nextTile = path[path.Count - 1];
+            nextTile = mainChar.gridLayer.GetTile(GridLayer.GetNeighbour(mainChar.Location, rand.Next(4)));
+            if (nextTile == null)
+                return false;
+            float NewDistance = (wereChar.Location - nextTile.Location).magnitude;
 
-                    if (NewDistance <= CurrentDistance || !nextTile.Passable)
-                        nextTile = null;
-                }
+            if (NewDistance <= CurrentDistance || !nextTile.Passable)
+                nextTile = null;
+        }
 
         if(nextTile!=null)
             target = nextTile.VisualTile.gameObject;
@@ -86,16 +91,11 @@ public class RunFromWerewolf : GoapAction {
 
         //mainChar.isMoving = true;
 
-        if (Time.time - startTime > workDuration)
-        {
-            if(nextTile.Passable)
-                mainChar.MoveToLocation(nextTile.Location);
-            hasMoved = true;
-            mainChar.isMoving = false;
-            nextTile = null;
+        if (nextTile.Passable)
+            mainChar.MoveToLocation(nextTile.Location);
 
-            return false;
-        }
-		return true;
+        hasMoved = true;
+
+		return false;
 	}
 }

@@ -61,10 +61,15 @@ public class SmashRocks : GoapAction {
             }
         }
 
+        if(path.Count == 1)
+        {
+            //finalTile = destination;
+        }
+
         if(finalTile == null)
         {
-            finalTile = mainChar.gridLayer.GetTile(mainChar.Location);
-            nextTile = mainChar.gridLayer.GetTile(mainChar.Location);
+            //finalTile = mainChar.gridLayer.GetTile(mainChar.Location);
+            //nextTile = mainChar.gridLayer.GetTile(mainChar.Location);
             return false;
         }
 
@@ -79,7 +84,8 @@ public class SmashRocks : GoapAction {
             nextTile = mainChar.gridLayer.GetTile(mainChar.Location);
         }
 
-        if (!nextTile.Passable)
+
+        if (nextTile == null || !nextTile.Passable)
             nextTile = null;
 
         if(nextTile!=null)
@@ -97,29 +103,25 @@ public class SmashRocks : GoapAction {
 
         if ((nextTile.Location - finalTile.Location).magnitude <= 1)
         {
+            if (Time.time - startTime > workDuration)
+            {
+                if (finalTile.TileType.Equals("rock"))
+                {
+                    mainChar.gridLayer.MakeGrassGrid(finalTile);
+                    
+                }
+                hasMoved = true;
+
+                mainChar.gridLayer.MakeEffect(finalTile, "fire");
+
+                return true;
+            }
+            return true;
         }
         else
         {
             hasMoved = true;
             return false;
         }
-
-        if (Time.time - startTime > workDuration)
-        {
-            if ((mainChar.Location - finalTile.Location).magnitude <= 1 && finalTile.TileType.Equals("rock"))
-            {
-                mainChar.gridLayer.MakeGrassGrid(finalTile);
-                hasMoved = true;
-
-                mainChar.gridLayer.MakeEffect(finalTile, "fire");
-
-                return false;
-            }
-            else
-            {
-                return false;
-            }
-        }
-		return true;
 	}
 }

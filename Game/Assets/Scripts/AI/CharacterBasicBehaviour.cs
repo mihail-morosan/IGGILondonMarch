@@ -21,6 +21,8 @@ public abstract class CharacterBasicBehaviour : MonoBehaviour, IGoap {
 
     int lastDirection = 0;
 
+    public Queue<GoapAction> currentActions;
+
     /**
      * Key-Value data that will feed the GOAP actions and system while planning.
      */
@@ -42,7 +44,6 @@ public abstract class CharacterBasicBehaviour : MonoBehaviour, IGoap {
             }
         }
 
-        worldData.Add(new KeyValuePair<string, object>("hasTreasure", hasTreasure));
 
         worldData.Add(new KeyValuePair<string, object>("canEscape", hasTreasure && Location == gridLayer.EscapeLocation));
 
@@ -104,6 +105,9 @@ public abstract class CharacterBasicBehaviour : MonoBehaviour, IGoap {
 
         worldData.Add(new KeyValuePair<string, object>("isTreasureAvailable", !gridLayer.TreasureLocation.Equals(new Vector2(-1000,-1000))));
 
+
+        worldData.Add(new KeyValuePair<string, object>("hasTreasure", hasTreasure || gridLayer.TreasureLocation.Equals(new Vector2(-1000, -1000))));
+
         worldData.Add(new KeyValuePair<string, object>("hasRocks", hasRocks));
 
         //worldData.Add(new KeyValuePair<string, object>("isHumanNearby", isBad && (mainChar.Location - Location).magnitude < 2.5f));
@@ -141,13 +145,14 @@ public abstract class CharacterBasicBehaviour : MonoBehaviour, IGoap {
     public void planFound(HashSet<KeyValuePair<string, object>> goal, Queue<GoapAction> actions)
     {
         // Yay we found a plan for our goal
-        Debug.Log("<color=green>Plan found for " + this.name + "</color> " + GoapAgent.prettyPrint(actions));
+        //Debug.Log("<color=green>Plan found for " + this.name + "</color> " + GoapAgent.prettyPrint(actions));
+        currentActions = actions;
     }
 
     public void actionsFinished()
     {
         // Everything is done, we completed our actions for this gool. Hooray!
-        Debug.Log("<color=blue>Actions completed</color>");
+        //Debug.Log("<color=blue>Actions completed</color>");
     }
 
     public void planAborted(GoapAction aborter)
@@ -155,7 +160,7 @@ public abstract class CharacterBasicBehaviour : MonoBehaviour, IGoap {
         // An action bailed out of the plan. State has been reset to plan again.
         // Take note of what happened and make sure if you run the same goal again
         // that it can succeed.
-        Debug.Log("<color=red>Plan Aborted</color> " + GoapAgent.prettyPrint(aborter));
+        //Debug.Log("<color=red>Plan Aborted</color> " + GoapAgent.prettyPrint(aborter));
     }
 
     public bool moveAgent(GoapAction nextAction)

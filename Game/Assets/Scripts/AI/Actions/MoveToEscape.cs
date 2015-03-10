@@ -1,8 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-
-using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 public class MoveToEscape : GoapAction
@@ -77,16 +74,8 @@ public class MoveToEscape : GoapAction
         else
             return false;
 
-        if (mainChar.Location.Equals(mainChar.gridLayer.EscapeLocation))
-        {
-            hasMoved = true;
-        }
-        else
-        {
-            hasMoved = true;
-            return false;
-        }
+        hasMoved = true;
 
-        return true;
+        return false;
     }
 }

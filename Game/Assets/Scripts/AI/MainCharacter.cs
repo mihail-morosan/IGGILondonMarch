@@ -13,7 +13,7 @@ public class MainCharacter : CharacterBasicBehaviour {
         HashSet<KeyValuePair<string, object>> goal = new HashSet<KeyValuePair<string, object>>();
 
 
-        goal.Add(new KeyValuePair<string, object>("hasTreasure", true));
+        //goal.Add(new KeyValuePair<string, object>("hasTreasure", true));
 
         //goal.Add(new KeyValuePair<string, object>("isTreasureProtected", false));
 

@@ -94,7 +94,8 @@ public sealed class GoapAgent : MonoBehaviour {
 
 			GoapAction action = currentActions.Peek();
 			if (action.requiresInRange() && action.target == null) {
-				Debug.Log("<color=red>Fatal error:</color> Action requires a target but has none. Planning failed. You did not assign the target in your Action.checkProceduralPrecondition()");
+                //Debug.Log(action.target);
+				//Debug.Log("<color=red>Fatal error:</color> Action requires a target but has none. Planning failed. You did not assign the target in your Action.checkProceduralPrecondition()");
 				fsm.popState(); // move
 				fsm.popState(); // perform
 				fsm.pushState(idleState);
@@ -206,6 +207,8 @@ public sealed class GoapAgent : MonoBehaviour {
 
 	public static string prettyPrint(Queue<GoapAction> actions) {
 		String s = "";
+        if (actions == null)
+            return "";
 		foreach (GoapAction a in actions) {
 			s += a.GetType().Name;
 			s += "-> ";

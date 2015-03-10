@@ -47,13 +47,14 @@ public class RoamAround : GoapAction {
 		//TODO
         mainChar.isMoving = true;
 
-        nextTile = null; //nextTile = mainChar.gridLayer.GetGrid()[(int)mainChar.Location.x + 1, (int)mainChar.Location.y];
+        //nextTile = null; //nextTile = mainChar.gridLayer.GetGrid()[(int)mainChar.Location.x + 1, (int)mainChar.Location.y];
         System.Random rand = new System.Random();
-        List<GridTile> path = mainChar.gridLayer.GetBestPathToTile(mainChar.gridLayer.GetTile(mainChar.Location), mainChar.gridLayer.GetTile(GridLayer.GetNeighbour(mainChar.Location, rand.Next(4))));
-        if (path.Count > 0)
+        //List<GridTile> path = mainChar.gridLayer.GetBestPathToTile(mainChar.gridLayer.GetTile(mainChar.Location), mainChar.gridLayer.GetTile(GridLayer.GetNeighbour(mainChar.Location, rand.Next(4))));
+        //if (path.Count > 1)
         {
-            nextTile = path[path.Count - 1];
-            if (nextTile.Passable == false)
+            nextTile = mainChar.gridLayer.GetTile(GridLayer.GetNeighbour(mainChar.Location, rand.Next(4)));
+            //nextTile = path[path.Count - 2];
+            if (nextTile == null || nextTile.Passable == false)
                 nextTile = null;
         }
 
@@ -70,12 +71,13 @@ public class RoamAround : GoapAction {
 
         //mainChar.isMoving = true;
 
+        mainChar.MoveToLocation(nextTile.Location);
+
         if (Time.time - startTime > workDuration)
         {
-            mainChar.MoveToLocation(nextTile.Location);
             hasMoved = true;
-            mainChar.isMoving = false;
+            return true;
         }
-		return true;
+		return false;
 	}
 }
