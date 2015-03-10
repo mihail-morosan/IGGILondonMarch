@@ -2,6 +2,7 @@
 using System.Collections;
 using Priority_Queue;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class PQTile : PriorityQueueNode
 {
@@ -34,6 +35,11 @@ public class GridLayer : MonoBehaviour {
     //public bool TreasureStolen = false;
 
     float lastUpdate = 0;
+
+    public void ClearEverything()
+    {
+        Grid = new GridTile[12, 12];
+    }
 
     public GridTile[,] GetGrid()
     {
@@ -226,16 +232,32 @@ public class GridLayer : MonoBehaviour {
             lastUpdate = Time.time;
         }
 
+        FindObjectOfType<Text>().text = "";
         //MainCharacter mainChar = FindObjectOfType<MainCharacter>();
+
+        foreach (var mainChar in FindObjectsOfType<CharacterBasicBehaviour>())
+        {
+            foreach (var x in mainChar.getWorldState())
+            {
+                if (x.Key.Equals("isTreasureProtected"))
+                    FindObjectOfType<Text>().text += mainChar.name + ":" + x.Key + ":" + x.Value + "\n";
+            }
+        }
+
         foreach (var mainChar in FindObjectsOfType<MainCharacter>())
         {
+            
             if (mainChar.Location.Equals(EscapeLocation) && mainChar.hasTreasure)
             {
                 //Victory
 
-                //Debug.Log("Victory");
+                Debug.Log("Victory " + EscapeLocation + mainChar.Location);
 
                 Time.timeScale = 0;
+            }
+            else
+            {
+                Time.timeScale = 1;
             }
 
             foreach (var w in FindObjectsOfType<WerewolfBehaviour>())

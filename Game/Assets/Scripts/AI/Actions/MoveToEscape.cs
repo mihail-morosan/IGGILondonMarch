@@ -13,7 +13,6 @@ public class MoveToEscape : GoapAction
 
     bool hasMoved = false;
     private float startTime = 0;
-    public float workDuration = 1;
 
     public MoveToEscape()
     {

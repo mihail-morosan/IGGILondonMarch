@@ -66,25 +66,43 @@ public abstract class CharacterBasicBehaviour : MonoBehaviour, IGoap {
 
         bool isTreasureProtected = false;
 
-        foreach (MainCharacter w in FindObjectsOfType<MainCharacter>())
-        {
-            
-            path = gridLayer.GetBestPathToTile(gridLayer.GetTile(w.Location), gridLayer.GetTile(gridLayer.TreasureLocation));
-
-            foreach(var p in path)
+        if(GetComponent<DruidBehaviour>())
+            foreach (MainCharacter w in FindObjectsOfType<MainCharacter>())
             {
-                if(p.Passable == false)
+            
+                path = gridLayer.GetBestPathToTile(gridLayer.GetTile(w.Location), gridLayer.GetTile(gridLayer.TreasureLocation));
+
+                foreach(var p in path)
+                {
+                    if(p.Passable == false)
+                    {
+                        isTreasureProtected = true;
+                        break;
+                    }
+                }
+
+            }
+
+        if(mainChar!=null)
+        {
+            path = gridLayer.GetBestPathToTile(gridLayer.GetTile(Location), gridLayer.GetTile(gridLayer.TreasureLocation));
+
+            foreach (var p in path)
+            {
+                if (p.Passable == false)
                 {
                     isTreasureProtected = true;
                     break;
                 }
             }
-
         }
 
         worldData.Add(new KeyValuePair<string, object>("isEscapeRouteClear", isEscapeRouteClear));
         
         worldData.Add(new KeyValuePair<string, object>("isTreasureProtected", isTreasureProtected));
+
+
+        worldData.Add(new KeyValuePair<string, object>("isTreasureAvailable", !gridLayer.TreasureLocation.Equals(new Vector2(-1000,-1000))));
 
         worldData.Add(new KeyValuePair<string, object>("hasRocks", hasRocks));
 
@@ -100,8 +118,11 @@ public abstract class CharacterBasicBehaviour : MonoBehaviour, IGoap {
 
     public void MoveToLocation(Vector2 Loc)
     {
-        Location = Loc;
-        transform.position = gridLayer.GetGrid()[(int)Location.x, (int)Location.y].VisualTile.transform.position;
+        if (enabled)
+        {
+            Location = Loc;
+            transform.position = gridLayer.GetGrid()[(int)Location.x, (int)Location.y].VisualTile.transform.position;
+        }
     }
 
     /**
@@ -120,7 +141,7 @@ public abstract class CharacterBasicBehaviour : MonoBehaviour, IGoap {
     public void planFound(HashSet<KeyValuePair<string, object>> goal, Queue<GoapAction> actions)
     {
         // Yay we found a plan for our goal
-        Debug.Log("<color=green>Plan found</color> " + GoapAgent.prettyPrint(actions));
+        Debug.Log("<color=green>Plan found for " + this.name + "</color> " + GoapAgent.prettyPrint(actions));
     }
 
     public void actionsFinished()
@@ -186,12 +207,17 @@ public abstract class CharacterBasicBehaviour : MonoBehaviour, IGoap {
 
 	// Use this for initialization
 	void Start () {
-        gridLayer = GetComponent<GridLayer>();
+        //gridLayer = GetComponent<GridLayer>();
 	}
+
+    public void SetGridLayer(GridLayer gl)
+    {
+        gridLayer = gl;
+    }
 	
 	// Update is called once per frame
 	void Update () {
-        if(!isMoving)
+        if(!isMoving && enabled)
         {
             MoveToLocation(Location);
         }

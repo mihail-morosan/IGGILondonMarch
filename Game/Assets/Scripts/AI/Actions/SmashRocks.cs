@@ -50,7 +50,7 @@ public class SmashRocks : GoapAction {
 
         GridTile destination = mainChar.hasTreasure ? mainChar.gridLayer.GetTile(mainChar.gridLayer.EscapeLocation) : mainChar.gridLayer.GetTile(mainChar.gridLayer.TreasureLocation);
 
-        List<GridTile> path = mainChar.gridLayer.GetBestPathToTile(mainChar.gridLayer.GetTile(mainChar.Location), destination);
+        List<GridTile> path = mainChar.gridLayer.GetBestPathToTile(destination,mainChar.gridLayer.GetTile(mainChar.Location));
 
         foreach (var p in path)
         {
@@ -65,17 +65,22 @@ public class SmashRocks : GoapAction {
         {
             finalTile = mainChar.gridLayer.GetTile(mainChar.Location);
             nextTile = mainChar.gridLayer.GetTile(mainChar.Location);
+            return false;
         }
 
         path = mainChar.gridLayer.GetBestPathToTile(finalTile, mainChar.gridLayer.GetTile(mainChar.Location));
         if (path.Count > 1)
         {
             nextTile = path[1];
+            
         }
         else
         {
             nextTile = mainChar.gridLayer.GetTile(mainChar.Location);
         }
+
+        if (!nextTile.Passable)
+            nextTile = null;
 
         if(nextTile!=null)
             target = nextTile.VisualTile.gameObject;
@@ -101,13 +106,17 @@ public class SmashRocks : GoapAction {
 
         if (Time.time - startTime > workDuration)
         {
-            if ((mainChar.Location - finalTile.Location).magnitude <= 1)
+            if ((mainChar.Location - finalTile.Location).magnitude <= 1 && finalTile.TileType.Equals("rock"))
             {
                 mainChar.gridLayer.MakeGrassGrid(finalTile);
                 hasMoved = true;
 
                 mainChar.gridLayer.MakeEffect(finalTile, "fire");
 
+                return false;
+            }
+            else
+            {
                 return false;
             }
         }

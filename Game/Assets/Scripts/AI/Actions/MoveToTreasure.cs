@@ -9,13 +9,14 @@ public class MoveToTreasure : GoapAction {
 
     bool hasMoved = false;
     private float startTime = 0;
-    public float workDuration = 1;
 
     public MoveToTreasure()
     {
         addPrecondition("hasTreasure", false);
 
         addPrecondition("isTreasureProtected", false);
+
+        addPrecondition("isTreasureAvailable", true);
 
 		addPrecondition ("isWerewolfNearby", false);
 
@@ -48,14 +49,19 @@ public class MoveToTreasure : GoapAction {
 	{
         mainChar.isMoving = true;
 
-        List<GridTile> path = mainChar.gridLayer.GetBestPathToTile(mainChar.gridLayer.GetTile(mainChar.Location), mainChar.gridLayer.GetTile(mainChar.gridLayer.TreasureLocation));
-        if (path.Count > 0)
+        List<GridTile> path = mainChar.gridLayer.GetBestPathToTile(mainChar.gridLayer.GetTile(mainChar.gridLayer.TreasureLocation), mainChar.gridLayer.GetTile(mainChar.Location));
+        if (path.Count > 1)
         {
-            nextTile = path[path.Count - 1];
+            nextTile = path[1];
         }
         else
         {
+
             nextTile = mainChar.gridLayer.GetTile(mainChar.Location);
+            if((mainChar.Location - mainChar.gridLayer.TreasureLocation).magnitude <= 1)
+            {
+                nextTile = mainChar.gridLayer.GetTile(mainChar.gridLayer.TreasureLocation);
+            }
         }
 
         if(nextTile!=null)

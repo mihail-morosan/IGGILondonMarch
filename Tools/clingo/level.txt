@@ -1,0 +1,43 @@
+#const width=11.
+
+dim(1..width).
+
+tile((X,Y)) :- dim(X), dim(Y).
+
+0 { sprite((X,Y),grass;rock;gem) } 1 :- tile((X,Y)).
+
+:- not (width*width)/3 { sprite(T,grass) }.
+:- not (width*width)/2 { sprite(T,rock) }.
+
+adj((X1,Y1),(X2,Y2)) :- 
+ tile((X1,Y1)), 
+ tile((X2,Y2)), 
+ #abs(X1-X2)+#abs(Y1-Y2) == 1.
+ 
+passable(T) :- tile(T), sprite(T,gem).
+passable(T) :- tile(T), sprite(T,grass).
+
+0 { char(T,main;druid;werewolf) } 1 :- sprite(T,grass).
+
+:- not 2 { char(T,main) } 2.
+
+:- not 1 { char(T,druid) } 1.
+
+:- not 2 { char(T,werewolf) } 3.
+
+:- not 1 {sprite(T,gem)} 1.
+
+0 { sprite(T3,rock):adj(T1,T2):adj(T2,T3) } 0 :- escape(T1).
+
+escape((width-1, width-1)).
+
+sprite(T,grass) :- escape(T).
+
+touch(T) :- char(T, main).
+{ touch(T2):adj(T1,T2) } :- touch(T1),passable(T2). 
+
+:- sprite(T,rock), touch(T). 
+
+completed :- escape(T), touch(T), sprite(T2,gem), touch(T2). 
+
+:- not completed.
