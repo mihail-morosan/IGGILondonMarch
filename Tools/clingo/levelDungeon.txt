@@ -1,0 +1,43 @@
+#const width=11.
+
+dim(1..width).
+
+tile((X,Y)) :- dim(X), dim(Y).
+
+1 { sprite(T,floor;wall) } 1 :- tile(T).
+
+:- not ((width*width)/2) { sprite(T,wall) }.
+:- not ((width*width)/2) { sprite(T,floor) }.
+
+adj((X1,Y1),(X2,Y2)) :- 
+ tile((X1,Y1)), 
+ tile((X2,Y2)), 
+ #abs(X1-X2)+#abs(Y1-Y2) == 1.
+ 
+passable(T) :- tile(T), sprite(T,floor).
+
+0 { char(T,main;werewolf) } 1 :- sprite(T,floor).
+
+:- not 2 { char(T,main) } 2.
+
+:- not 2 { char(T,werewolf) } 3.
+
+escape((width-1, width-1)).
+
+0 { sprite(T3,wall):adj(T1,T2):adj(T2,T3) } 0 :- escape(T1).
+
+char((1,3),main).
+
+char((1,5),main).
+
+sprite(T,floor) :- escape(T).
+
+touch((1,3)) :- char((1,3), main).
+
+{ touch(T2):adj(T1,T2) } :- touch(T1),passable(T2). 
+
+:- sprite(T,wall), touch(T). 
+
+completed :- escape(T), touch(T), touch((1,5)). 
+
+:- not completed.

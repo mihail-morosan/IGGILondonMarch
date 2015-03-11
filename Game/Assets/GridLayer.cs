@@ -244,7 +244,7 @@ public class GridLayer : MonoBehaviour {
             UpdateAllGridTileCosts();
             lastUpdate = Time.time;
 
-            if (FindObjectsOfType<MainCharacter>().Length == 0)
+            if (FindObjectsOfType<MainCharacter>().Length == 0 && FindObjectsOfType<MainCharacterDungeon>().Length == 0)
             {
                 //Utter defeat
                 DebugPanel.text = "Spirits have won!";
@@ -268,12 +268,43 @@ public class GridLayer : MonoBehaviour {
 
         DebugPanel.text = "";
 
-        foreach (var mainChar in FindObjectsOfType<CharacterBasicBehaviour>())
+        foreach (var mainChar in FindObjectsOfType<CommonBehaviour>())
         {
             DebugPanel.text += mainChar.name + ": " + GoapAgent.prettyPrint(mainChar.currentActions) + "\n\n";
         }
 
         
+        bool Victory = true;
+
+        foreach (var mainChar in FindObjectsOfType<MainCharacterDungeon>())
+        {
+            if (!mainChar.Location.Equals(EscapeLocation))
+            {
+                Victory = false;
+            }
+            
+        }
+
+        foreach (var w in FindObjectsOfType<CharacterBasicBehaviourDungeon>())
+        {
+            if(w.Health <= 0)
+            {
+                Destroy(w.gameObject);
+            }
+        }
+
+        if(Victory && FindObjectsOfType<MainCharacterDungeon>().Length > 0)
+        {
+            //Victory
+
+            //Debug.Log("Victory " + EscapeLocation + mainChar.Location);
+            DebugPanel.text = "Rogues have won!";
+            DebugPanel.fontSize = 20;
+
+            gameIsOver = true;
+
+            //Time.timeScale = 0;
+        }
 
         foreach (var mainChar in FindObjectsOfType<MainCharacter>())
         {

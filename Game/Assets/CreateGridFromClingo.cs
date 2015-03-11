@@ -10,13 +10,14 @@ public struct NamedPrefab
 {
     public string name;
     public GameObject prefab;
+    public bool passable;
 }
 
 [Serializable]
 public struct NamedCharacter
 {
     public string name;
-    public CharacterBasicBehaviour prefab;
+    public CommonBehaviour prefab;
 }
 
 public class CreateGridFromClingo : MonoBehaviour {
@@ -42,6 +43,8 @@ public class CreateGridFromClingo : MonoBehaviour {
     float startH, endH, startW, endW;
 
     GridLayer gridLayer;
+
+    public string DefaultFile;
 
     public void CreateGridElements(string GameData)
     {
@@ -118,7 +121,7 @@ public class CreateGridFromClingo : MonoBehaviour {
                     gridLayer.TreasureLocation = new Vector2(x, y);
                 }
 
-                gridLayer.CreateGridTile(x, y, go, TType, TType.Equals("grass") || TType.Equals("gem"));
+                gridLayer.CreateGridTile(x, y, go, TType, GetPrefab(TType).passable);
             }
         }
 
@@ -136,7 +139,7 @@ public class CreateGridFromClingo : MonoBehaviour {
 
         gridLayer.UpdateAllGridTileCosts();
 
-        foreach(var o in FindObjectsOfType<CharacterBasicBehaviour>())
+        foreach(var o in FindObjectsOfType<CommonBehaviour>())
         {
             //o.enabled = true;
             o.MoveToLocation(o.Location);
@@ -148,13 +151,13 @@ public class CreateGridFromClingo : MonoBehaviour {
         Vector3 pos = transform.position;
         pos.z = 0;
 
-        CharacterBasicBehaviour go = null;
+        CommonBehaviour go = null;
 
         Vector3 scale = transform.localScale;
 
         scale.z = 1;
 
-        CharacterBasicBehaviour prefab = null;
+        CommonBehaviour prefab = null;
         foreach (var p in CharacterPrefabs)
         {
             if (p.name.Equals(TType))
@@ -165,7 +168,7 @@ public class CreateGridFromClingo : MonoBehaviour {
         }
 
 
-        go = (CharacterBasicBehaviour)Instantiate(prefab, pos, transform.rotation);
+        go = (CommonBehaviour)Instantiate(prefab, pos, transform.rotation);
 
         go.Location = new Vector2(x, y);
 
@@ -190,7 +193,26 @@ public class CreateGridFromClingo : MonoBehaviour {
         return go.gameObject;
     }
 
+    public NamedPrefab GetPrefab(string TType)
+    {
+        foreach (var p in Prefabs)
+        {
+            if (p.name.Equals(TType))
+            {
+                return p;
+            }
+        }
+        return Prefabs[0];
+    }
+
     public GameObject CreateVisualTile(int x, int y, string TType)
+    {
+        GameObject prefab = GetPrefab(TType).prefab;
+
+        return CreateVisualTile(x, y, prefab);
+    }
+
+    public GameObject CreateVisualTile(int x, int y, GameObject prefab)
     {
         Vector3 pos = transform.position;
         pos.x = startW + TileSizeW * (x + 0.5f);
@@ -205,15 +227,6 @@ public class CreateGridFromClingo : MonoBehaviour {
 
         scale.z = 1;
 
-        GameObject prefab = null;
-        foreach(var p in Prefabs)
-        {
-            if(p.name.Equals(TType))
-            {
-                prefab = p.prefab;
-                break;
-            }
-        }
 
 
         go = (GameObject)Instantiate(prefab, pos, transform.rotation);
@@ -261,7 +274,7 @@ public class CreateGridFromClingo : MonoBehaviour {
 	void Start () {
         gridLayer = GetComponent<GridLayer>();
 
-        LoadFromFile("Clingo.txt");
+        LoadFromFile(DefaultFile);
 	}
 	
     public void LoadFromFile(string Filename)
@@ -289,7 +302,7 @@ public class CreateGridFromClingo : MonoBehaviour {
 
             Debug.LogWarning("Result = " + LevelString);
         }
-        else
+        if(Filename.Equals("DefaultForest"))
         {
             LevelString = "char((2,2),main) char((6,6),druid) char((5,3),werewolf) escape((10,10)) sprite((6,6),gem) "+
             "sprite((2,2),grass) sprite((10,10),grass) sprite((1,1),rock) sprite((1,2),rock) sprite((1,4),rock) "+
@@ -314,6 +327,11 @@ public class CreateGridFromClingo : MonoBehaviour {
 
         }
         
+        if(Filename.Equals("DefaultDungeon"))
+        {
+            StreamReader f = new StreamReader(Application.dataPath + "/../../Tools/clingo/finalDungeon.txt");
+            LevelString = f.ReadToEnd();
+        }
         //Get text from clingo
         //string LevelString = "char((2,2),main) char((6,6),druid) char((5,3),werewolf) escape((10,10)) sprite((8,8),gem) sprite((2,2),grass) sprite((10,10),grass) sprite((1,1),grass) sprite((1,2),rock) sprite((1,4),rock) sprite((1,5),rock) sprite((1,6),grass) sprite((1,7),grass) sprite((1,8),rock) sprite((1,11),rock) sprite((2,1),grass) sprite((2,3),grass) sprite((2,4),grass) sprite((2,5),grass) sprite((2,6),grass) sprite((2,7),grass) sprite((2,8),rock) sprite((2,9),grass) sprite((2,10),rock) sprite((2,11),rock) sprite((3,1),grass) sprite((3,2),rock) sprite((3,3),grass) sprite((3,4),rock) sprite((3,5),grass) sprite((3,6),grass) sprite((3,7),grass) sprite((3,8),grass) sprite((3,9),grass) sprite((3,10),rock) sprite((3,11),grass) sprite((4,1),grass) sprite((4,2),grass) sprite((4,3),grass) sprite((4,4),grass) sprite((4,5),rock) sprite((4,6),rock) sprite((4,7),rock) sprite((4,8),grass) sprite((4,9),grass) sprite((4,10),grass) sprite((4,11),grass) sprite((5,1),grass) sprite((5,3),grass) sprite((5,4),grass) sprite((5,6),grass) sprite((5,7),grass) sprite((5,8),grass) sprite((5,9),rock) sprite((5,10),grass) sprite((6,1),grass) sprite((6,2),grass) sprite((6,3),grass) sprite((6,4),grass) sprite((6,5),grass) sprite((6,6),grass) sprite((6,7),grass) sprite((6,8),rock) sprite((6,9),grass) sprite((6,10),grass) sprite((6,11),rock) sprite((7,1),grass) sprite((7,2),grass) sprite((7,3),rock) sprite((7,4),grass) sprite((7,5),grass) sprite((7,6),grass) sprite((7,7),grass) sprite((7,8),grass) sprite((7,9),grass) sprite((7,10),grass) sprite((7,11),grass) sprite((8,1),grass) sprite((8,2),grass) sprite((8,3),grass) sprite((8,4),grass) sprite((8,5),grass) sprite((8,6),rock) sprite((8,7),grass) sprite((8,9),grass) sprite((8,10),grass) sprite((8,11),grass) sprite((9,2),grass) sprite((9,3),grass) sprite((9,4),rock) sprite((9,5),grass) sprite((9,6),grass) sprite((9,7),grass) sprite((9,8),grass) sprite((9,9),grass) sprite((9,10),grass) sprite((9,11),grass) sprite((10,2),grass) sprite((10,3),grass) sprite((10,4),grass) sprite((10,5),rock) sprite((10,6),grass) sprite((10,7),grass) sprite((10,8),grass) sprite((10,9),grass) sprite((10,11),rock) sprite((11,1),rock) sprite((11,2),rock) sprite((11,3),rock) sprite((11,4),rock) sprite((11,5),rock) sprite((11,6),rock) sprite((11,7),rock) sprite((11,8),grass) sprite((11,9),grass) sprite((11,10),rock)";
 
