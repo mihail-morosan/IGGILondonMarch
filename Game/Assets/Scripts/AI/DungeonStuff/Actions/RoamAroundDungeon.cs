@@ -70,7 +70,8 @@ public class RoamAroundDungeon : GoapAction {
 
         //mainChar.isMoving = true;
 
-        mainChar.MoveToLocation(nextTile.Location);
+        if(nextTile.Passable)
+            mainChar.MoveToLocation(nextTile.Location);
 
         if (Time.time - startTime > workDuration)
         {

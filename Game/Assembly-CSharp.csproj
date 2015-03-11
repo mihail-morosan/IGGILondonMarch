@@ -49,6 +49,7 @@
      <Compile Include="Assets\CreateGridFromClingo.cs" />
      <Compile Include="Assets\GUIDebug.cs" />
      <Compile Include="Assets\GridLayer.cs" />
+     <Compile Include="Assets\MainMenuScript.cs" />
      <Compile Include="Assets\Scripts\AI\Actions\BuildBlockade.cs" />
      <Compile Include="Assets\Scripts\AI\Actions\GetRocks.cs" />
      <Compile Include="Assets\Scripts\AI\Actions\MoveToEscape.cs" />
@@ -62,6 +63,7 @@
      <Compile Include="Assets\Scripts\AI\DungeonStuff\Actions\AttackEnemyDungeon.cs" />
      <Compile Include="Assets\Scripts\AI\DungeonStuff\Actions\MoveToEscapeDungeon.cs" />
      <Compile Include="Assets\Scripts\AI\DungeonStuff\Actions\RoamAroundDungeon.cs" />
+     <Compile Include="Assets\Scripts\AI\DungeonStuff\Actions\StopAndHealDungeon.cs" />
      <Compile Include="Assets\Scripts\AI\DungeonStuff\CharacterBasicBehaviourDungeon.cs" />
      <Compile Include="Assets\Scripts\AI\DungeonStuff\MainCharacterDungeon.cs" />
      <Compile Include="Assets\Scripts\AI\DungeonStuff\WerewolfDungeonBehaviour.cs" />

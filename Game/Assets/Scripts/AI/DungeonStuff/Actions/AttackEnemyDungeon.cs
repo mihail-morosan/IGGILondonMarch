@@ -60,6 +60,9 @@ public class AttackEnemyDungeon : GoapAction
             nextTile = mainChar.gridLayer.GetTile(mainChar.Location);
         }
 
+        if (nextTile != null && !nextTile.Passable)
+            nextTile = null;
+
         if (nextTile != null)
             target = nextTile.VisualTile.gameObject;
 
@@ -77,14 +80,13 @@ public class AttackEnemyDungeon : GoapAction
             return false;
         }
 
-        if ((mainChar.closestEnemy.Location - mainChar.closestEnemy.Location).magnitude <= 1)
+        if ((mainChar.Location - mainChar.closestEnemy.Location).magnitude <= 1)
         {
             if (Time.time - startTime > mainChar.AttackTime)
             {
-                if ((mainChar.closestEnemy.Location - mainChar.closestEnemy.Location).magnitude <= 1)
-
+                //if ((mainChar.Location - mainChar.closestEnemy.Location).magnitude <= 1)
+                if(mainChar.closestEnemy.Health > 0)
                 {
-
                     mainChar.gridLayer.MakeEffect(mainChar.gridLayer.GetTile(mainChar.closestEnemy.Location), "fire");
 
                     mainChar.closestEnemy.Health -= mainChar.Attack;

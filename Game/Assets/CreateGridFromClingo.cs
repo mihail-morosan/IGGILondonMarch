@@ -281,7 +281,10 @@ public class CreateGridFromClingo : MonoBehaviour {
     {
         ClearEverything();
         string LevelString = "";
-        if (Filename.Equals("random"))
+
+        string[] fParams = Filename.Split(' ');
+
+        if (fParams[0].Equals("random"))
         {
 
             System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
@@ -290,12 +293,14 @@ public class CreateGridFromClingo : MonoBehaviour {
 
             startInfo.FileName = Application.dataPath + "/../../Tools/clingo/run.bat";
 
+            startInfo.Arguments = fParams[1] + " " + fParams[1] + ".level";
+
             startInfo.WorkingDirectory = Application.dataPath + "/../../Tools/clingo/";
             System.Diagnostics.Process pr = System.Diagnostics.Process.Start(startInfo);
 
             pr.WaitForExit();
 
-            StreamReader f = new StreamReader(Application.dataPath + "/../../Tools/clingo/final2.txt");
+            StreamReader f = new StreamReader(Application.dataPath + "/../../Tools/clingo/" + fParams[1] + ".level");
             LevelString = f.ReadToEnd();
 
             //string LevelString = pr.StandardOutput.ReadToEnd();
@@ -347,6 +352,6 @@ public class CreateGridFromClingo : MonoBehaviour {
 
     public void QuitGame()
     {
-        Application.Quit();
+        Application.LoadLevel("Menu");
     }
 }

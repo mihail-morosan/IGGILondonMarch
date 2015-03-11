@@ -91,6 +91,16 @@ public class GridLayer : MonoBehaviour {
         tile.TileType = "rock";
     }
 
+    public void MakeGemGrid(GridTile tile)
+    {
+        tile.Passable = true;
+        GameObject go = GetComponent<CreateGridFromClingo>().CreateVisualTile((int)tile.Location.x, (int)tile.Location.y, "gem");
+        //GameObject go = (GameObject)Instantiate(GetComponent<CreateGridFromClingo>().GridTileRock, tile.VisualTile.transform.position, tile.VisualTile.transform.rotation);
+        Destroy(tile.VisualTile);
+        tile.VisualTile = go;
+        tile.TileType = "gem";
+    }
+
     public void MakeGrassGrid(GridTile tile)
     {
         tile.Passable = true;
@@ -229,6 +239,13 @@ public class GridLayer : MonoBehaviour {
                 }
             }
         }
+
+        foreach (var w in FindObjectsOfType<MainCharacterDungeon>())
+        {
+            if(!w.hasEscaped)
+                GetTile(w.Location).CostToPass = Mathf.Max(GetTile(w.Location).CostToPass, 1001);
+        }
+
     }
 	
 	// Update is called once per frame
@@ -333,6 +350,12 @@ public class GridLayer : MonoBehaviour {
                     //Defeat
 
                     MakeEffect(GetTile(mainChar.Location), "death");
+
+                    if(mainChar.hasTreasure)
+                    {
+                        MakeGemGrid(GetTile(mainChar.Location));
+                        TreasureLocation = mainChar.Location;
+                    }
 
                     Destroy(mainChar.gameObject);
 

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public abstract class CharacterBasicBehaviourDungeon : CommonBehaviour
 {
-
+    public bool hasEscaped = false;
     public bool isBad = false;
 
     public int MaxHealth = 100;
@@ -61,13 +61,25 @@ public abstract class CharacterBasicBehaviourDungeon : CommonBehaviour
 
         //worldData.Add(new KeyValuePair<string, object>("isInCombat", isHumanNearby || isWerewolfNearby));
 
-        worldData.Add(new KeyValuePair<string, object>("isLowHealth", Health < 0.2f * MaxHealth));
+        worldData.Add(new KeyValuePair<string, object>("isLowHealth", Health < 0.8f * MaxHealth));
 
         worldData.Add(new KeyValuePair<string, object>("isWerewolfNearby", isWerewolfNearby));
 
         
 
         return worldData;
+    }
+
+    void Update()
+    {
+        if (currentActions == null || currentActions.Peek() == null || currentActions.Peek().target == null)
+            return;
+        Vector3 l1, l2;
+
+
+        l1 = currentActions.Peek().target.transform.position + new Vector3(0, 0, -5);
+        l2 = transform.position + new Vector3(0, 0, -5);
+        Debug.DrawLine(l1, l2, Color.red);
     }
 
     //public abstract HashSet<KeyValuePair<string, object>> createGoalState();

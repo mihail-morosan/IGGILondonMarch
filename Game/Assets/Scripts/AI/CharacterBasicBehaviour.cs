@@ -30,8 +30,6 @@ public abstract class CharacterBasicBehaviour : CommonBehaviour {
         }
 
 
-        worldData.Add(new KeyValuePair<string, object>("canEscape", hasTreasure && Location == gridLayer.EscapeLocation));
-
         bool isEscapeRouteClear = true;
 
         List<GridTile> path;
@@ -90,6 +88,9 @@ public abstract class CharacterBasicBehaviour : CommonBehaviour {
 
         worldData.Add(new KeyValuePair<string, object>("isTreasureAvailable", !gridLayer.TreasureLocation.Equals(new Vector2(-1000,-1000))));
 
+        
+
+        worldData.Add(new KeyValuePair<string, object>("canEscape", (hasTreasure || gridLayer.TreasureLocation.Equals(new Vector2(-1000,-1000)) && Location == gridLayer.EscapeLocation)));
 
         worldData.Add(new KeyValuePair<string, object>("hasTreasure", hasTreasure || gridLayer.TreasureLocation.Equals(new Vector2(-1000, -1000))));
 
